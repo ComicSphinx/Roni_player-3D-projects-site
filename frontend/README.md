@@ -2,7 +2,7 @@
 Use `py manage.py runserver` to run server (And open `http://127.0.0.1:8000/` in your browser to get site)
 
 ## Which folder you need to hold your html and css files
-Temporarily use `Roni_player` folder to hold your html and css files (later we will move this one where is should be)
+Temporarily use `Roni_player` folder to hold your html and css files (later we will move this one where it should be)
 
 
 ## How to install python and Django
