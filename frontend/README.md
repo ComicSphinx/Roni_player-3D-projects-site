@@ -8,4 +8,6 @@
 1. Бэк получает запрос GET presentation/{id}
 2. Делает запрос В БД в таблицы presentation/image и тянет оттуда все изображения и их идентификаторы (где какая картинка должна располагаться), примерно такой запрос:
 SELECT image_position, image FROM presentation.images WHERE presentation_id={id}
+3. Делает запрос в БД и тянет оттуда текстовые данные
 SELECT description, title FROM presentation.texts WHERE presentation_id={id}
+4. Возвращает их в ответе на запрос

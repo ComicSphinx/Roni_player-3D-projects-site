@@ -1,0 +1,1 @@
+Don’t use the minified version during development. You will miss out on all the nice warnings for common mistakes!
