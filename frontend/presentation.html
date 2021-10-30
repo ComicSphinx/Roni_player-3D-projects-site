@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Presentation</title>
+        <title>{{ title }}</title>
         <link href = "resources/styles/presentation.css" rel = "stylesheet">
         <link href = "resources/styles/main.css" rel = "stylesheet">
         <script src = "resources/framework/vue.js"></script>
@@ -18,8 +18,8 @@
                     <p id = "name">Evgeniy Klimashin</p>
                     <a id = "works">Works</a>
                 </div>
-                <h1>Review</h1>
-                <p>Few words about work another string about<br> work and something else<br>third string about description. Description end.</p>
+                <h1>{{ presentationTitle }}</h1>
+                <p>{{ description }}</p>
             </div>            
             <div class = "right-side"></div>
             <div class = "first block">
@@ -49,5 +49,7 @@
                 <img src = "resources/images/7.jpg">
             </div>
         </div>
+        
+        <script src = "resources/js/presentation.js"></script>
     </body>
 </html>
