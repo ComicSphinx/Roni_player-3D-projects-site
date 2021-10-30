@@ -1,6 +1,8 @@
+// @Author: Daniil Maslov (ComicSphinx)
+
 const getTextData = async () => {
     try { // в {id} надо будет динамически подставлять id презентации
-        return await axios.get('http://localhost:3000/api/getTextData/{id}')
+        return await axios.get('http://127.0.0.1:5000/presentation')
     } catch (error) {
         console.error(error)
     }
