@@ -1,5 +1,11 @@
 # FRONTEND README
-## Which folder you need to hold your html and css files
-Temporarily use `Roni_player` folder to hold your html and css files (later we will move this one where is should be)
+Как это должно работать с т.з. фронта:
+1. Пользак переходит на карточку презентации, в url есть параметр - id.
+2. Фронт отправляет GET запрос на бэк с параметром Id из урла и подтягивает все необходимые данные (заголовок, описание, картинки)
+3. Отрисовывает данные
 
-test readme.md comicsphinx-frontend
+Как должно выглядеть  т.з. бэка:
+1. Бэк получает запрос GET presentation/{id}
+2. Делает запрос В БД в таблицы presentation/image и тянет оттуда все изображения и их идентификаторы (где какая картинка должна располагаться), примерно такой запрос:
+SELECT image_position, image FROM presentation.images WHERE presentation_id={id}
+SELECT description, title FROM presentation.texts WHERE presentation_id={id}
