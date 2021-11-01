@@ -11,7 +11,7 @@ var app = new Vue({
     },
     mounted() {
         axios
-            .get('http://127.0.0.1:5000/presentation')
+            .get('http://127.0.0.1:5000/presentation/1')
             .then(response => (
                 this.description = response.data.description,
                 this.presentationTitle = response.data.presentationTitle,
