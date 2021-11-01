@@ -5,15 +5,15 @@ import os
 
 # Модуль работы с бд - игрушечный.
 # Для пром.эксплуатации, скорее всего, его надо будет переделать на что-то более серьезное
-#
-#
 
 class Database():
     database_file_path = "db/database.db"
     presentations_table_name = "presentations"
 
-    def getPresentationById(self, presentation_id):
-        request = "SELECT * FROM " + self.presentations_table_name + " WHERE presentation_id =" + str(presentation_id) + " AND active = true"
+    def getPresentationById(self, presentation_id, field):
+        # TODO: Надо будет переработать этот метод и сделать так, чтобы он возвращал JSON
+        # Либо собирать JSON в PresentationService.py
+        request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentation_id =" + str(presentation_id) + " AND active = true"
         presentation = self.executeRequest(self, request)
         return presentation
 

@@ -15,19 +15,42 @@ class PresentationService(Resource):
 
     @app.route('/presentation/<id>', methods=['GET'])
     def getPresentationById(id):
-        # textData = {'title': 'Title dmmaslov', 'presentationTitle': 'Title', 'description': 'Description'}
-        # response = jsonify(textData)
-        # response.status_code = 200
-        # response.headers['Access-Control-Allow-Origin'] = '*'
+        fields = ['presentation_id', 'title', 'description', 'description_title', 'first_img', 'second_img', 
+                    'third_img', 'fourth_img', 'fifth_img', 'sixth_img', 'seventh_img', 'eight_img', 'active']
+        presentationData = []
+        response = []
 
-        presentation = Database.getPresentationById(Database, id)
-        if presentation == []:
-            return("record not found") # тут надо возвращать еще какой-то код, типа 400
-        else: 
-            return jsonify(presentation)
+        # получаем данные, заполнить presentationData
+        i=0
+        for i in range(len(fields)):
+            presentationData.append(Database.getPresentationById(Database, id, fields[i]))
+
+        # Уменьшаем вложенность данных (иначе будет, примерно, так - ([[1]], [[2]]))
+        i=0
+        for i in range(len(presentationData)):
+            response.append(presentationData[i][0][0])
+        
+        if presentationData[0] == '':
+             # TODO: тут надо возвращать еще какой-то код и ответ, типа 400
+            return("record not found")
+        else:
+            # TODO: полагаю, это надо будет зарефакторить
+            return jsonify(
+                presentation_id=response[0],
+                title=response[1],
+                description=response[2],
+                descriptionTitle=response[3],
+                firstImg=response[4],
+                secondImg=response[5],
+                thirdImg=response[6],
+                fourthImg=response[7],
+                sixthImg=response[8],
+                seventhImg=response[9],
+                eightImg=response[10],
+                active=response[11]
+            )
 
 api.add_resource(PresentationService, "/")
 if __name__ == "__main__":
     app.run(debug=True)
     Database.secureInitDB(Database)
-    
