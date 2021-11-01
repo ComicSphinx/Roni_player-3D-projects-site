@@ -9,7 +9,7 @@ from Database import Database
 app = Flask(__name__)
 api = Api(app)
 
-class presentation(Resource):
+class PresentationService(Resource):
 
     localhost = "127.0.0.1:5000/"
 
@@ -26,7 +26,7 @@ class presentation(Resource):
         else: 
             return jsonify(presentation)
 
-api.add_resource(presentation, "/")
+api.add_resource(PresentationService, "/")
 if __name__ == "__main__":
     app.run(debug=True)
     Database.secureInitDB(Database)
