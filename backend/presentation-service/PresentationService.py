@@ -38,7 +38,7 @@ class PresentationService(Resource):
                 presentation_id=presentationData[0],
                 title=presentationData[1],
                 description=presentationData[2],
-                descriptionTitle=presentationData[3],
+                presentationTitle=presentationData[3],
                 firstImg=presentationData[4],
                 secondImg=presentationData[5],
                 thirdImg=presentationData[6],
