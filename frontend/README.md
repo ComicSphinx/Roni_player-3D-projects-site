@@ -11,3 +11,6 @@ SELECT image_position, image FROM presentation.images WHERE presentation_id={id}
 3. Делает запрос в БД и тянет оттуда текстовые данные
 SELECT description, title FROM presentation.texts WHERE presentation_id={id}
 4. Возвращает их в ответе на запрос
+
+Todo:
+1. Сделать красивое отображение урла и обновление странички при изменении аргумента (Id презентации)
