@@ -24,7 +24,7 @@
 
 .review {
     display: grid;
-    grid-template-rows: max-content;
+    grid-template-rows: 4em 5em 10em;
     grid-column: 2/4;
 }
 
