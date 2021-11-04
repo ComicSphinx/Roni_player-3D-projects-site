@@ -14,3 +14,4 @@ SELECT description, title FROM presentation.texts WHERE presentation_id={id}
 
 Todo:
 1. Сделать красивое отображение урла и обновление странички при изменении аргумента (Id презентации)
+2. Сделать presentation_id = uniq (database)
