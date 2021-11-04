@@ -23,14 +23,14 @@ var app = new Vue({
             description: null,
             title: null,
             images: {
-                firstImage: '',
-                secondImage: '',
-                thirdImage: '',
-                fourthImage: '',
-                fifthImage: '',
-                sixthImage: '',
-                seventhImage: '',
-                eightImage: ''
+                firstImage:     baseUrl+'/presentationImages'+this.$route.path+'/first_image',
+                secondImage:    baseUrl+'/presentationImages'+this.$route.path+'/second_image',
+                thirdImage:     baseUrl+'/presentationImages'+this.$route.path+'/third_image',
+                fourthImage:    baseUrl+'/presentationImages'+this.$route.path+'/fourth_image',
+                fifthImage:     baseUrl+'/presentationImages'+this.$route.path+'/fifth_image',
+                sixthImage:     baseUrl+'/presentationImages'+this.$route.path+'/sixth_image',
+                seventhImage:   baseUrl+'/presentationImages'+this.$route.path+'/seventh_image',
+                eightImage:     baseUrl+'/presentationImages'+this.$route.path+'/eight_image'
             }
         };
     },
@@ -43,17 +43,5 @@ var app = new Vue({
                 this.presentationTitle = response.data.presentationTitle,
                 this.title = response.data.title
                 ));
-        axios
-            .get(baseUrl+'/presentationImages'+this.$route.path)
-            .then(response => (
-                this.firstImage = response.data,
-                this.secondImage = response.data,
-                this.thirdImage = response.data,
-                this.fourthImage = response.data,
-                this.fifthImage = response.data,
-                this.sixthImage = response.data,
-                this.seventhImage = response.data,
-                this.eightImage = response.data
-            ));
     }
 });
