@@ -23,14 +23,14 @@ var app = new Vue({
             description: null,
             title: null,
             images: {
-                firstImage:     baseUrl+'/presentationImages'+this.$route.path+'/first_image',
-                secondImage:    baseUrl+'/presentationImages'+this.$route.path+'/second_image',
-                thirdImage:     baseUrl+'/presentationImages'+this.$route.path+'/third_image',
-                fourthImage:    baseUrl+'/presentationImages'+this.$route.path+'/fourth_image',
-                fifthImage:     baseUrl+'/presentationImages'+this.$route.path+'/fifth_image',
-                sixthImage:     baseUrl+'/presentationImages'+this.$route.path+'/sixth_image',
-                seventhImage:   baseUrl+'/presentationImages'+this.$route.path+'/seventh_image',
-                eightImage:     baseUrl+'/presentationImages'+this.$route.path+'/eight_image'
+                firstImage:     baseUrl+'/presentationImage'+this.$route.path+'/firstImage',
+                secondImage:    baseUrl+'/presentationImage'+this.$route.path+'/secondImage',
+                thirdImage:     baseUrl+'/presentationImage'+this.$route.path+'/thirdImage',
+                fourthImage:    baseUrl+'/presentationImage'+this.$route.path+'/fourthImage',
+                fifthImage:     baseUrl+'/presentationImage'+this.$route.path+'/fifthImage',
+                sixthImage:     baseUrl+'/presentationImage'+this.$route.path+'/sixthImage',
+                seventhImage:   baseUrl+'/presentationImage'+this.$route.path+'/seventhImage',
+                eightImage:     baseUrl+'/presentationImage'+this.$route.path+'/eightImage'
             }
         };
     },
