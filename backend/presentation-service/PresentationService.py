@@ -15,8 +15,7 @@ class PresentationService(Resource):
 
     @app.route('/presentationText/<id>', methods=['GET'])
     def getPresentationTextById(id):
-        fields = ['presentation_id', 'title', 'description', 'description_title', 'first_img', 'second_img', 
-                    'third_img', 'fourth_img', 'fifth_img', 'sixth_img', 'seventh_img', 'eight_img', 'active']
+        fields = ['presentation_id', 'title', 'description', 'description_title', 'active']
         presentationDataDraft = []
         presentationData = []
 
@@ -40,25 +39,20 @@ class PresentationService(Resource):
                 title=presentationData[1],
                 description=presentationData[2],
                 presentationTitle=presentationData[3],
-                firstImg=presentationData[4],
-                secondImg=presentationData[5],
-                thirdImg=presentationData[6],
-                fourthImg=presentationData[7],
-                sixthImg=presentationData[8],
-                seventhImg=presentationData[9],
-                eightImg=presentationData[10],
-                active=presentationData[11]
+                active=presentationData[4]
             )
+
             # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-            
             return make_response(json, {'Access-Control-Allow-Origin': '*'})
 
-    @app.route('/presentationImages/<id>', methods=['GET'])
-    def getPresentationImagesById(id):
-        image_path = 'db/images/1.jpg'
+    @app.route('/presentationImages/<id>/<strImageNumber>', methods=['GET'])
+    def getPresentationImagesById(id, strImageNumber):
+        imagePath = Database.getPresentationById(Database, id, strImageNumber)
         
         # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-        return make_response(send_file(image_path, mimetype='image/gif'), {'Access-Control-Allow-Origin': '*'})
+        print(type(imagePath))
+        print(imagePath)
+        return make_response(send_file(imagePath[0][0], mimetype='image/jpeg'), {'Access-Control-Allow-Origin': '*'})
         
 
 api.add_resource(PresentationService, "/")
