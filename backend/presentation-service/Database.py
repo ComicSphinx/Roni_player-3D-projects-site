@@ -10,10 +10,10 @@ class Database():
     database_file_path = "db/database.db"
     presentations_table_name = "presentations"
 
-    def getPresentationById(self, presentation_id, field):
+    def getPresentationById(self, presentationId, field):
         # TODO: Надо будет переработать этот метод и сделать так, чтобы он возвращал JSON
         # Либо собирать JSON в PresentationService.py
-        request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentation_id =" + str(presentation_id) + " AND active = true"
+        request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentationId =" + str(presentationId) + " AND active = true"
         presentation = self.executeRequest(self, request)
         return presentation
 
@@ -24,8 +24,8 @@ class Database():
             return 0
 
     def createDB(self):
-        output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentation_id INT, title VARCHAR(60), description VARCHAR(255), description_title VARCHAR(60), first_image VARCHAR(255), second_image VARCHAR(255)," +
-                         "third_image VARCHAR(255), fourth_image VARCHAR(255), fifth_image VARCHAR(255), sixth_image VARCHAR(255), seventh_image VARCHAR(255), eight_image VARCHAR(255), active BOOL);")
+        output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentationId INT, title VARCHAR(60), description VARCHAR(255), descriptionTitle VARCHAR(60), firstImage VARCHAR(255), secondImage VARCHAR(255)," +
+                         "thirdImage VARCHAR(255), fourthImage VARCHAR(255), fifthImage VARCHAR(255), sixthImage VARCHAR(255), seventhImage VARCHAR(255), eightImage VARCHAR(255), active BOOL);")
         print(output)
 
     def executeRequest(self, request):

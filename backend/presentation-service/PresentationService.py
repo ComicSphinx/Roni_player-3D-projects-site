@@ -15,7 +15,7 @@ class PresentationService(Resource):
 
     @app.route('/presentationText/<id>', methods=['GET'])
     def getPresentationTextById(id):
-        fields = ['presentation_id', 'title', 'description', 'description_title', 'active']
+        fields = ['presentationId', 'title', 'description', 'descriptionTitle', 'active']
         presentationDataDraft = []
         presentationData = []
 
@@ -35,7 +35,7 @@ class PresentationService(Resource):
         else:
             # TODO: полагаю, это надо будет зарефакторить
             json = jsonify(
-                presentation_id=presentationData[0],
+                presentationId=presentationData[0],
                 title=presentationData[1],
                 description=presentationData[2],
                 presentationTitle=presentationData[3],
@@ -45,7 +45,7 @@ class PresentationService(Resource):
             # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
             return make_response(json, {'Access-Control-Allow-Origin': '*'})
 
-    @app.route('/presentationImages/<id>/<strImageNumber>', methods=['GET'])
+    @app.route('/presentationImage/<id>/<strImageNumber>', methods=['GET'])
     def getPresentationImagesById(id, strImageNumber):
         imagePath = Database.getPresentationById(Database, id, strImageNumber)
         
