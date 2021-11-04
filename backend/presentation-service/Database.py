@@ -24,8 +24,8 @@ class Database():
             return 0
 
     def createDB(self):
-        output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentation_id INT, title VARCHAR(60), description VARCHAR(255), description_title VARCHAR(60), first_img VARCHAR(255), second_img VARCHAR(255)," +
-                         "third_img VARCHAR(255), fourth_img VARCHAR(255), fifth_img VARCHAR(255), sixth_img VARCHAR(255), seventh_img VARCHAR(255), eight_img VARCHAR(255), active BOOL);")
+        output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentation_id INT, title VARCHAR(60), description VARCHAR(255), description_title VARCHAR(60), first_image VARCHAR(255), second_image VARCHAR(255)," +
+                         "third_image VARCHAR(255), fourth_image VARCHAR(255), fifth_image VARCHAR(255), sixth_image VARCHAR(255), seventh_image VARCHAR(255), eight_image VARCHAR(255), active BOOL);")
         print(output)
 
     def executeRequest(self, request):
