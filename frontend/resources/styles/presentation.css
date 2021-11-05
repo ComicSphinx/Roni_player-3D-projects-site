@@ -1,16 +1,4 @@
 /* Author: Daniil Maslov (ComicSphinx) */
-
-.grid {
-    display: grid;
-    grid-template-columns: 0.2fr 1fr 1fr 0.2fr;
-    grid-gap: 1%;
-}
-
-.block {
-    display: grid;
-    grid-column: 2/4;
-}
-
 #name {
     float: left;
 }
@@ -26,18 +14,6 @@
     display: grid;
     grid-template-rows: 4em 5em 10em;
     grid-column: 2/4;
-}
-
-.right-side {
-    grid-column: 4;
-}
-
-.grid h1, p {
-    color: white;
-}
-
-.grid p {
-    font-style: italic;
 }
 
 .first {

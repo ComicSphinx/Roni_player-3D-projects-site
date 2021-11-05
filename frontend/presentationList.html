@@ -1,0 +1,31 @@
+<!-- @Author: Daniil Maslov -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link href = "resources/styles/main.css" rel = "stylesheet">
+        <link href = "resources/styles/presentationList.css" rel = "stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <script src = "resources/framework/vue.js"></script>
+        <script src = "resources/framework/vue-router.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div class="grid">
+            <div class = "left-side"></div>
+            <ul class="list">
+                <li v-for="presentation in presentations" :key="presentation.id, presentation.mainImage">
+                    <div class="block">
+                        <a href = "presentation.html#/presentations.ids"id>
+                            <img :src=presentations.images>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <div class="right-side"></div>
+        </div>
+        <script src = "resources/js/presentationList.js"></script>
+    </body>
+</html>
