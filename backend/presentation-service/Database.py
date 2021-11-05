@@ -11,9 +11,12 @@ class Database():
     presentations_table_name = "presentations"
 
     def getPresentationById(self, presentationId, field):
-        # TODO: Надо будет переработать этот метод и сделать так, чтобы он возвращал JSON
-        # Либо собирать JSON в PresentationService.py
         request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentationId =" + str(presentationId) + " AND active = true"
+        presentation = self.executeRequest(self, request)
+        return presentation
+
+    def getPresentationsList(self, field):
+        request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE active = true"
         presentation = self.executeRequest(self, request)
         return presentation
 
@@ -25,7 +28,7 @@ class Database():
 
     def createDB(self):
         output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentationId INT, title VARCHAR(60), description VARCHAR(255), descriptionTitle VARCHAR(60), firstImage VARCHAR(255), secondImage VARCHAR(255)," +
-                         "thirdImage VARCHAR(255), fourthImage VARCHAR(255), fifthImage VARCHAR(255), sixthImage VARCHAR(255), seventhImage VARCHAR(255), eightImage VARCHAR(255), active BOOL);")
+                         "thirdImage VARCHAR(255), fourthImage VARCHAR(255), fifthImage VARCHAR(255), sixthImage VARCHAR(255), seventhImage VARCHAR(255), eightImage VARCHAR(255), mainImage VARCHAR(255), active BOOL);")
         print(output)
 
     def executeRequest(self, request):
