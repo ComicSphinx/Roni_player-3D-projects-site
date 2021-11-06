@@ -10,6 +10,8 @@ class Database():
     database_file_path = "db/database.db"
     presentations_table_name = "presentations"
 
+    # TODO: Зарефакторить этот метод (вместе с getPresentationsList)
+    # Как минимум, поменять название на getPresentationFieldsById или что-то такое
     def getPresentationById(self, presentationId, field):
         request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentationId =" + str(presentationId) + " AND active = true"
         presentation = self.executeRequest(self, request)
