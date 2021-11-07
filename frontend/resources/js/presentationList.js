@@ -18,11 +18,37 @@ var app = new Vue({
         return {
             presentations: [
                 {
-                    page: "presentation.html/1",
-                    image: baseUrl+"/presentationImage/1"+"/mainImage"
+                    page: null,
+                    image: null
                 }
+                // {
+                //     page: "presentation.html#/1",
+                //     image: baseUrl+"/presentationImage/1"+"/mainImage"
+                // },
+                // {
+                //     page: "presentation.html#/2",
+                //     image: baseUrl+"/presentationImage/2"+"/mainImage"
+                // }
             ]
         }
+    },
+    mounted() {
+        axios
+            .get(baseUrl+'/presentationsList/')
+            .then(response => (
+                // TODO: На первой итерации в page, image подается id - 2, на второй - undefined (хотя, по console.log в 42 стр видно, что идет 1, затем 2)
+
+                response.data.presentationIds.forEach(element => {
+                    console.log(element),
+                    page = response.data.presentationIds[element],
+                    image = baseUrl+"/presentationImage/"+response.data.presentationIds[element]+"/mainImage"
+                    
+                    this.presentations.push({
+                        page, 
+                        image
+                    })
+                })
+            ))
     }
     // mounted() {
     //     axios
