@@ -6,40 +6,40 @@ const router = new VueRouter({
     routes:
     [
         {
-            path: '/presentationsList/'
+            path: '/presentationsList'
         }
     ]
 })
 
 var app = new Vue({
     router,
-    el: '.grid',
+    el: '.list',
     data() {
         return {
-            count: null,
             presentations: [
                 {
-                    ids: [],
-                    images: []
+                    id: "haha"
+                },
+                {
+                    id: "lol"
                 }
             ]
         }
     },
     mounted() {
         axios
-            .get(baseUrl+'/presentationsList')
+            .get(baseUrl+'/presentationsList/')
             .then(response => (
-                // response.data. что дальше? узнать из ответа и надо будет как-то цикл сделать или тип того,
-                // чтобы туда все id попали
-                this.presentations.ids.push(response.data),
-                // count тоже надо будет корректно заполниь
-                this.count = response.count
-            )),
-
-            this.presentations.images.forEach(image => {
-                this.presentation.ids.forEach(id => {
-                    this.presentations.images.push(baseUrl+'/presentationImage/'+id+'mainImage')
-                });
-            });
+                // хз, принимает ли он такой формат? 0: 1 ; 1: 2 или просто через запятую надо? 1, 2
+                this.presentations.id = response.data.presentationId
+                
+                // попробую собирать изображение уже на месте
+                // this.presentation.image = baseUrl+"'/presentationImage/'"+this.presentation.id+"'/mainImage'"
+                // console.log(this.presentations.images[0])
+                // // this.presentations.ids.forEach(id => {
+                // //     this.presentations.images[id] = ("baseUrl+'/presentationImage/'"+this.presentations.ids[id]+"'/mainImage'")
+                // // }),
+                // // console.log(this.presentations.images)
+            ))
     }
 })

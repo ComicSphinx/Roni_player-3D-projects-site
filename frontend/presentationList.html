@@ -1,4 +1,4 @@
-<!-- @Author: Daniil Maslov -->
+<!-- @Author: Daniil Maslov (@ComicSphinx) -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,12 +16,9 @@
         <div class="grid">
             <div class = "left-side"></div>
             <ul class="list">
-                <li v-for="presentation in presentations" :key="presentation.id, presentation.mainImage">
-                    <div class="block">
-                        <a href = "presentation.html#/presentations.ids"id>
-                            <img :src=presentations.images>
-                        </a>
-                    </div>
+                <!-- тут с key явно надо поработать -->
+                <li v-for="presentation in presentations" :key="presentation.id">
+                        {{ presentation.id }}
                 </li>
             </ul>
             <div class="right-side"></div>
