@@ -16,9 +16,10 @@
         <div class="grid">
             <div class = "left-side"></div>
             <ul class="list">
-                <!-- тут с key явно надо поработать -->
-                <li v-for="presentation in presentations" :key="presentation.id">
-                        {{ presentation.id }}
+                <li v-for="presentation in presentations" :key="presentation.page">
+                    <a :href="presentation.page">
+                        <img :src="presentation.image">
+                    </a>
                 </li>
             </ul>
             <div class="right-side"></div>
