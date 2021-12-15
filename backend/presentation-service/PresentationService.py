@@ -11,84 +11,62 @@ api = Api(app)
 
 class PresentationService(Resource):
 
-    localhost = "127.0.0.1:5000/"
-
-    @app.route('/presentationText/<id>', methods=['GET'])
-    def getPresentationTextById(id):
-        fields = ['presentationId', 'title', 'description', 'descriptionTitle', 'active']
-        presentationDataDraft = []
-        presentationData = []
-
-        # получаем данные, заполнить presentationDataDraft
-        i=0
-        for i in range(len(fields)):
-            presentationDataDraft.append(Database.getPresentationById(Database, id, fields[i]))
-
-        # Уменьшаем вложенность данных (иначе будет, примерно, так - ([[1]], [[2]]))
-        i=0
-        for i in range(len(presentationDataDraft)):
-            presentationData.append(presentationDataDraft[i][0][0])
+    @app.route('/presentation/<id>', methods=['GET'])
+    def presentation(id):
+        # TODO:
+        # 1. Подтянуть картинки из базы по id
+        # 2. Подтянуть текстовые данные из базы по id
+        # 3. Отрендерить картинку с полученными из базы данными, отдавая в html словарь
+        output = {} # TODO: Зарефакторить название переменной
         
-        if presentationData[0] == '':
-             # TODO: тут надо возвращать еще какой-то код и ответ, типа 400
-            return("record not found")
-        else:
-            # TODO: полагаю, это надо будет зарефакторить
-            json = jsonify(
-                presentationId=presentationData[0],
-                title=presentationData[1],
-                description=presentationData[2],
-                presentationTitle=presentationData[3],
-                active=presentationData[4]
-            )
+        # TODO: Зарфеакторить фрагмент
+        pageTitle = Database.getPresentationById(Database, id, 'title')
+        descriptionTitle = Database.getPresentationById(Database, id, 'descriptionTitle')
+        description = Database.getPresentationById(Database, id, 'description')
+        firstImage = Database.getPresentationById(Database, id, 'firstImage')
+        secondImage = Database.getPresentationById(Database, id, 'secondImage')
+        thirdImage = Database.getPresentationById(Database, id, 'thirdImage')
+        fourthImage = Database.getPresentationById(Database, id, 'fourthImage')
+        fifthImage = Database.getPresentationById(Database, id, 'fifthImage')
+        sixthImage = Database.getPresentationById(Database, id, 'sixthImage')
+        seventhImage = Database.getPresentationById(Database, id, 'seventhImage')
+        eightImage = Database.getPresentationById(Database, id, 'eightImage')
+        mainImage = Database.getPresentationById(Database, id, 'mainImage')
 
-            # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-            return make_response(json, {'Access-Control-Allow-Origin': '*'})
-
-    @app.route('/presentationImage/<id>/<strImageNumber>', methods=['GET'])
-    def getPresentationImagesById(id, strImageNumber):
-        imagePath = Database.getPresentationById(Database, id, strImageNumber)
+        output = {'pageTitle':pageTitle, 'descriptionTitle': descriptionTitle, 'description': description, 'firstImage': firstImage, 'secondImage': secondImage,
+                    'thirdImage': thirdImage, 'fourthImage': fourthImage, 'fifthImage': fifthImage, 'sixthImage': sixthImage, 'seventhImage': seventhImage, 'eightImage': eightImage,
+                    'mainImage': mainImage}
         
-        # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-        return make_response(send_file(imagePath[0][0], mimetype='image/jpeg'), {'Access-Control-Allow-Origin': '*'})
-    
-    # TODO: Сделать рефакторинг. У меня два, почти одинаковых, метода
+        return render_template('presentation.html', data=output)
+
     @app.route('/presentationsList/', methods=['GET'])
-    def getPresentationsList():
-        fields = ['presentationId', 'count(presentationId)']
-        presentationDataDraft = []
+    def presentationsList():
+        # TODO: Можно использовать структуру - словарь, ids - первое значение, PresentationsImagesPath - второе
         ids = []
+        ids1 = [] #TODO : ЗАРЕФАКТОРИТЬ И НЕ ЗАБЫТЬ ПОМЕНЯТЬ В HTML
+        presentationsImagesPaths = []
+        presentationsImagesPaths1 = [] #TODO : ЗАРЕФАКТОРИТЬ И НЕ ЗАБЫТЬ ПОМЕНЯТЬ В HTML
+        output = {} # TODO: Зарефакторить название переменной
 
-        # Получаем список id
-        presentationDataDraft.append(Database.getPresentationsList(Database, fields[0]))
-        print(presentationDataDraft[0])
-        # Заполняем поле count (count вызывает этот метод - беспорядок, т.к. метод должен возвращать СПИСОК)
-        count = Database.getPresentationsList(Database, fields[1])
-    
-        # Уменьшаем вложенность данных для ids (иначе будет, примерно, так - ([[1]], [[2]]))
-        i=0
-        for i in range(len(presentationDataDraft[0])):
-            ids.append(presentationDataDraft[0][i][0])
+        # Заполняем ids и presentationsImagesPaths
+        ids = Database.getPresentationsList(Database, 'presentationId')
+        presentationsImagesPaths = Database.getPresentationsList(Database, 'mainImage')
 
-        # Уменьшаем вложенность данных для count
-        count = count[0][0]
-        
-        # TODO: говно, а не обработчик
-        if ids[0] == '':
-             # TODO: тут надо возвращать еще какой-то код и ответ, типа 400
-            return("record not found")
-        else:
-            # TODO: полагаю, это надо будет зарефакторить
-            json = jsonify(
-                presentationIds=ids,
-                count=count
-            )
+        # Уменьшаем вложенность
+        i = 0
+        for i in range(len(ids)):
+            ids1.append(ids[i][0])
+            presentationsImagesPaths1.append(presentationsImagesPaths[i][0])
 
-            # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-            return make_response(json, {'Access-Control-Allow-Origin': '*'})
+        # добавляем ids и presentationsImagesPath в outputDict
+        i = 0
+        for i in range(len(ids1)):
+            output.update({ids1[i]: presentationsImagesPaths1[i]})
 
+        # Отобразить страинчку со списком презентаций, в качестве аргумента отдаем картинки и id TODO: что отдавать вторым аргументом, чтобы в html я смог построить ссылочки на карточки?
+        return render_template('presentationsList.html', presentationsList=output)
 
-api.add_resource(PresentationService, "/")
+api.add_resource(PresentationService)
 if __name__ == "__main__":
     app.run(debug=True)
     Database.secureInitDB(Database)

@@ -2,12 +2,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{ title }}</title>
-        <link href = "resources/styles/presentation.css" rel = "stylesheet">
-        <link href = "resources/styles/main.css" rel = "stylesheet">
-        <script src = "resources/framework/vue.js"></script>
-        <script src = "resources/framework/vue-router.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <title>{{ data.get('pageTitle') }}</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='presentation.css') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -18,40 +15,38 @@
             <div class = "review">
                 <div class = "menu">
                     <p id = "name">Evgeniy Klimashin</p>
-                    <a id = "works">Works</a>
+                    <a id = "works" href="{{url_for('presentationsList')}}">Works</a>
                 </div>
-                <h1>{{ presentationTitle }}</h1>
-                <p>{{ description }}</p>
+                <h1>{{ data.get('descriptionTitle') }}</h1>
+                <p>{{ data.get('description') }}</p>
             </div>            
             <div class = "right-side"></div>
             <div class = "first block">
-                <img :src="images.firstImage">
+                <img src="/static/images/{{data.get('firstImage')}}">
             </div>
             <div class = "square block">
                 <div id = "first" class = "left">
-                    <img :src="images.secondImage">
+                    <img src="/static/images/{{data.get('secondImage')}}">
                 </div>
                 <div id = "second" class = "right">
-                    <img :src="images.thirdImage">
+                    <img src="/static/images/{{data.get('thirdImage')}}">
                 </div>
                 <div id = "third" class ="left">
-                    <img :src="images.fourthImage">
+                    <img src="/static/images/{{data.get('fourthImage')}}">
                 </div>
                 <div id = "fourth" class = "right">
-                    <img :src="images.fifthImage">
+                    <img src="/static/images/{{data.get('fifthImage')}}">
                 </div>
             </div>
             <div class = "second block">
-                <img :src="images.sixthImage">
+                <img src="/static/images/{{data.get('sixthImage')}}">
             </div>
             <div class = "third block">
-                <img :src="images.seventhImage">
+                <img src="/static/images/{{data.get('seventhImage')}}">
             </div>
             <div class = "fourth block">
-                <img :src="images.eightImage">
+                <img src="/static/images/{{data.get('eightImage')}}">
             </div>
         </div>
-        
-        <script src = "resources/js/presentation.js"></script>
     </body>
 </html>

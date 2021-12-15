@@ -11,10 +11,13 @@ class Database():
     presentations_table_name = "presentations"
 
     # TODO: Зарефакторить этот метод (вместе с getPresentationsList)
-    # Как минимум, поменять название на getPresentationFieldsById или что-то такое
+    # row[0] чтобы очистить от лишних скобок, убрать список
     def getPresentationById(self, presentationId, field):
         request = "SELECT "+field+" FROM " + self.presentations_table_name + " WHERE presentationId =" + str(presentationId) + " AND active = true"
-        presentation = self.executeRequest(self, request)
+        connection, cursor = self.connectDB(self)
+        for row in cursor.execute(request):
+            presentation = row[0]
+        self.saveAndCloseDB(self, connection)
         return presentation
 
     def getPresentationsList(self, field):
@@ -31,6 +34,7 @@ class Database():
     def createDB(self):
         output = self.executeRequest(self, "CREATE TABLE " + self.presentations_table_name + " (presentationId INT, title VARCHAR(60), description VARCHAR(255), descriptionTitle VARCHAR(60), firstImage VARCHAR(255), secondImage VARCHAR(255)," +
                          "thirdImage VARCHAR(255), fourthImage VARCHAR(255), fifthImage VARCHAR(255), sixthImage VARCHAR(255), seventhImage VARCHAR(255), eightImage VARCHAR(255), mainImage VARCHAR(255), active BOOL);")
+        
         print(output)
 
     def executeRequest(self, request):
