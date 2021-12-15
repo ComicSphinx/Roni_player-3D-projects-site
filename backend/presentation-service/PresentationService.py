@@ -11,8 +11,6 @@ api = Api(app)
 
 class PresentationService(Resource):
 
-    localhost = "127.0.0.1:5000/"
-
     @app.route('/presentationText/<id>', methods=['GET'])
     def getPresentationTextById(id):
         fields = ['presentationId', 'title', 'description', 'descriptionTitle', 'active']
@@ -52,41 +50,64 @@ class PresentationService(Resource):
         # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
         return make_response(send_file(imagePath[0][0], mimetype='image/jpeg'), {'Access-Control-Allow-Origin': '*'})
     
-    # TODO: Сделать рефакторинг. У меня два, почти одинаковых, метода
-    @app.route('/presentationsList/', methods=['GET'])
-    def getPresentationsList():
-        fields = ['presentationId', 'count(presentationId)']
-        presentationDataDraft = []
-        ids = []
+    # # TODO: Сделать рефакторинг. У меня два, почти одинаковых, метода
+    # @app.route('/presentationsList', methods=['GET'])
+    # def getPresentationsList():
+    #     fields = ['presentationId', 'count(presentationId)']
+    #     presentationDataDraft = []
+    #     ids = []
 
-        # Получаем список id
-        presentationDataDraft.append(Database.getPresentationsList(Database, fields[0]))
-        print(presentationDataDraft[0])
-        # Заполняем поле count (count вызывает этот метод - беспорядок, т.к. метод должен возвращать СПИСОК)
-        count = Database.getPresentationsList(Database, fields[1])
+    #     # Получаем список id
+    #     presentationDataDraft.append(Database.getPresentationsList(Database, fields[0]))
+    #     print(presentationDataDraft[0])
+    #     # TODO: Заполняем поле count (count вызывает этот метод - беспорядок, т.к. метод должен возвращать СПИСОК)
+    #     count = Database.getPresentationsList(Database, fields[1])
     
-        # Уменьшаем вложенность данных для ids (иначе будет, примерно, так - ([[1]], [[2]]))
-        i=0
-        for i in range(len(presentationDataDraft[0])):
-            ids.append(presentationDataDraft[0][i][0])
+    #     # Уменьшаем вложенность данных для ids (иначе будет, примерно, так - ([[1]], [[2]]))
+    #     i=0
+    #     for i in range(len(presentationDataDraft[0])):
+    #         ids.append(presentationDataDraft[0][i][0])
 
-        # Уменьшаем вложенность данных для count
-        count = count[0][0]
+    #     # Уменьшаем вложенность данных для count
+    #     count = count[0][0]
         
-        # TODO: говно, а не обработчик
-        if ids[0] == '':
-             # TODO: тут надо возвращать еще какой-то код и ответ, типа 400
-            return("record not found")
-        else:
-            # TODO: полагаю, это надо будет зарефакторить
-            json = jsonify(
-                presentationIds=ids,
-                count=count
-            )
+    #     # TODO: говно, а не обработчик
+    #     if ids[0] == '':
+    #          # TODO: тут надо возвращать еще какой-то код и ответ, типа 400
+    #         return("record not found")
+    #     else:
+    #         # TODO: полагаю, это надо будет зарефакторить
+    #         json = jsonify(
+    #             presentationIds=ids,
+    #             count=count
+    #         )
 
-            # TODO: До введения в пром.эксплуатацию надо, скорее всего, убрать этот хедер и настроить безопасность
-            return make_response(json, {'Access-Control-Allow-Origin': '*'})
+    @app.route('/presentationsList', methods=['GET'])
+    def getPresentationsList():
+        # TODO: Можно использовать структуру - словарь, ids - первое значение, PresentationsImagesPath - второе
+        ids = []
+        ids1 = [] #TODO : ЗАРЕФАКТОРИТЬ
+        presentationsImagesPaths = []
+        presentationsImagesPaths1 = [] #TODO : ЗАРЕФАКТОРИТЬ
+        outputDict = {}
 
+        # Заполняем ids и presentationsImagesPaths
+        ids = Database.getPresentationsList(Database, 'presentationId')
+        presentationsImagesPaths = Database.getPresentationsList(Database, 'firstImage')
+
+        # Уменьшаем вложенность
+        i = 0
+        for i in range(len(ids)):
+            ids1.append(ids[i][0])
+            presentationsImagesPaths1.append(presentationsImagesPaths[i][0])
+
+        # добавляем ids и presentationsImagesPath в outputDict
+        i = 0
+        for i in range(len(ids1)):
+            outputDict.update({ids1[i]: presentationsImagesPaths1[i]})
+
+        # Отобразить страинчку со списком презентаций, в качестве аргумента отдаем картинки и id TODO: что отдавать вторым аргументом, чтобы в html я смог построить ссылочки на карточки?
+        return render_template('presentationsList.html')
 
 api.add_resource(PresentationService, "/")
 if __name__ == "__main__":
