@@ -39,7 +39,7 @@ class PresentationService(Resource):
         
         return render_template('presentation.html', data=output)
 
-    @app.route('/presentationsList', methods=['GET'])
+    @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # TODO: Можно использовать структуру - словарь, ids - первое значение, PresentationsImagesPath - второе
         ids = []
