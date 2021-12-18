@@ -1,8 +1,8 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask, jsonify, make_response, send_file
+from flask import Flask
 from flask.templating import render_template
-from flask_restful import Api, Resource
+from flask_restful import Api, Resource # TODO: Верно ли я применяю flask_restful?
 
 from Database import Database
 

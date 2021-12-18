@@ -1,0 +1,27 @@
+/* @Author: Daniil Maslov (ComicSphinx) */
+
+.review {
+    display: grid;
+    grid-template-rows: 4em 5em 10em;
+    grid-column: 2/4;
+}
+
+.square * {
+    display: grid;
+}
+
+.square .first, .square .third {
+    padding-right: 1%;
+}
+
+.square .first, .square .second {
+    grid-row: 1;
+}
+
+.square .second, .square .fourth {
+    padding-left: 1%;
+}
+
+.inputImage {
+    visibility: hidden;
+}
