@@ -1,0 +1,62 @@
+/* Author: Daniil Maslov (ComicSphinx) */
+#name {
+    float: left;
+}
+
+#works {
+    float: right;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    color: white;
+}
+
+.review {
+    display: grid;
+    grid-template-rows: 4em 5em 10em;
+    grid-column: 2/4;
+}
+
+.first {
+    grid-row: 2;
+}
+
+.left {
+    padding-right: 1%;
+}
+
+.right {
+    padding-left: 1%;
+}
+
+.square #first {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.square #second {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.square #third, .square #fourth {
+    padding-top: 1%;
+}
+
+.square #third {
+    grid-row: 4;
+    grid-column: 2/4;
+    grid-column: 2;
+}
+
+.square #fourth {
+    grid-column: 3;
+    grid-row: 4;
+}
+
+.third {
+    grid-row: 5;
+}
+
+.fourth {
+    grid-row: 6;
+}

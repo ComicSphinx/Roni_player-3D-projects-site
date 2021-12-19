@@ -1,0 +1,51 @@
+<!-- @Author: Daniil Maslov (@ComicSphinx) -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add presentation</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='presentation.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class = "grid">
+            <div class = "left-side"></div>
+            <div class = "review">
+                <div class = "menu">
+                    <form action="{{url_for('logout')}}" method="post"><button link="{{url_for('logout')}}">logout</button></form>
+                </div>
+                <h1 contenteditable="true">Заголовок, введите текст</h1>
+                <p contenteditable="true">Описание, введите текст</p>
+            </div>            
+            <div class = "right-side"></div>
+            <div class = "first block">
+                <img src="">
+            </div>
+            <div class = "square block">
+                <div id = "first" class = "left">
+                    <img src="">
+                </div>
+                <div id = "second" class = "right">
+                    <img src="">
+                </div>
+                <div id = "third" class ="left">
+                    <img src="">
+                </div>
+                <div id = "fourth" class = "right">
+                    <img src="">
+                </div>
+            </div>
+            <div class = "second block">
+                <img src="">
+            </div>
+            <div class = "third block">
+                <img src="">
+            </div>
+            <div class = "fourth block">
+                <img src="">
+            </div>
+        </div>
+    </body>
+</html>
