@@ -24,7 +24,7 @@ class AdminService(Resource):
         if 'username' in session:
             return render_template('admin.html')
         else:
-            return redirect(url_for('login.html'))
+            return redirect(url_for('login'))
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -45,6 +45,30 @@ class AdminService(Resource):
     def logout():
         session.pop('username')
         return redirect(url_for('login'))
+
+    @app.route('/createPresentation', methods=['POST', 'GET'])
+    def createPresentation():
+        if 'username' in session:
+            if request.method == 'GET':
+                return render_template('createPresentation.html')
+        else:
+            return redirect(url_for('login'))
+
+    @app.route('/updatePresentation', methods=['PUT', 'GET'])
+    def updatePresentation():
+        if 'username' in session:
+            if request.method == 'GET':
+                return render_template('updatePresentation.html')
+        else:
+            return redirect(url_for('login'))
+
+    @app.route('/removePresentation', methods=['DELETE', 'GET'])
+    def removePresentation():
+        if 'username' in session:
+            if request.method == 'GET':
+                return render_template('removePresentation.html')
+        else:
+            return redirect(url_for('login'))
 
 def checkCredentials(filename, value):
     file = open(filename, 'r')
