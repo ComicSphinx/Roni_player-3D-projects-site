@@ -18,39 +18,35 @@
 
 .first {
     grid-row: 2;
+    padding-right: 1%
 }
 
-.left {
-    padding-right: 1%;
+.square .first {
+    grid-row: 3;
+    grid-column: 2;
 }
 
-.right {
+.square .second {
+    grid-column: 3;
+    grid-row: 3;
     padding-left: 1%;
 }
 
-.square #first {
-    grid-row: 3;
-    grid-column: 2;
-}
-
-.square #second {
-    grid-column: 3;
-    grid-row: 3;
-}
-
-.square #third, .square #fourth {
+.square .third, .square .fourth {
     padding-top: 1%;
 }
 
-.square #third {
+.square .third {
     grid-row: 4;
     grid-column: 2/4;
     grid-column: 2;
+    padding-right: 1%;
 }
 
-.square #fourth {
+.square .fourth {
     grid-column: 3;
     grid-row: 4;
+    padding-left: 1%;
 }
 
 .third {
@@ -61,6 +57,6 @@
     grid-row: 6;
 }
 
-.chooseImage {
+.inputImage {
     visibility: hidden;
 }

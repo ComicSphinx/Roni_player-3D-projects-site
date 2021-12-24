@@ -1,12 +1,22 @@
-var firstImage = document.querySelectorAll("#firstImg");
-var fileInput = document.querySelectorAll(".chooseImage");
+var fileInput = document.querySelectorAll(".inputImage");
 
-function readURL(input) {
+// TODO: надо будет зарефакторить эту функцию  (функция должна делать только одно действие)
+
+// TODO: Если в блоке несколько изображений - оно подгоняет для последней. надо еще это учитывать
+
+function readAndSetImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
+        // определить название класса (строка), из которого вызван input
+        var parentClass = input.closest('.block').className;
+        // получить этот класс
+        parentClass = document.getElementsByClassName(parentClass);
+        
+        // определить картинку, в которую будет загружаться изображение
+        var image = parentClass[0].querySelector('img');
+    
         reader.onload = function (e) {
-            image[0].setAttribute("src", e.target.result);
+            image.setAttribute("src", e.target.result);
         }
         
         reader.readAsDataURL(input.files[0]);
@@ -15,8 +25,6 @@ function readURL(input) {
 
 fileInput.forEach((item) => {
     item.addEventListener('input', (event) => {
-        readURL(item);
+        readAndSetImage(item);
     })
 });
-
-console.log(fileInput[0].getAttribute('class'));

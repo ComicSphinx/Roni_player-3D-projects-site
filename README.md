@@ -47,6 +47,7 @@ SELECT mainImage FROM presentations WHERE presentationId={id} AND active=true
 
 ## Задачи на рефакторинг
 1. Метод GET presentationsList - он ведь не возвращает список презентаций - он возвращает id[] и count
+2. Функция в admin-service.previewImage.js readAndSetImage
 
 ## Задачи на промышленную эксплуатацию
 1. Провести нагрузочное тестирование
