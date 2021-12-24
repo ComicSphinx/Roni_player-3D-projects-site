@@ -60,3 +60,7 @@
 .fourth {
     grid-row: 6;
 }
+
+.chooseImage {
+    visibility: hidden;
+}
