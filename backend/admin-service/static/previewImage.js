@@ -8,9 +8,15 @@ function readAndSetImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         // определить название класса (строка), из которого вызван input
-        var parentClass = input.closest('.block').className;
-        // получить этот класс
-        parentClass = document.getElementsByClassName(parentClass);
+        try {
+            var parentClass = input.closest('.pic').className;
+            // получить этот класс
+            parentClass = document.getElementsByClassName(parentClass);
+        } catch (err) {
+            var parentClass = input.closest('.block').className;
+            // получить этот класс
+            parentClass = document.getElementsByClassName(parentClass);
+        }
         
         // определить картинку, в которую будет загружаться изображение
         var image = parentClass[0].querySelector('img');
