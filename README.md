@@ -52,4 +52,7 @@ SELECT mainImage FROM presentations WHERE presentationId={id} AND active=true
 ## Задачи на промышленную эксплуатацию
 1. Провести нагрузочное тестирование
 2. Отключить debug=True
-3. При запуске в пром запустить GeneratePassword.py, пароль для админки сгенерится в файл - password.txt
+
+## Как запустить в пром
+1. При запуске в пром запустить GeneratePassword.py, пароль для админки сгенерится в файл - password.txt
+2. В admin service (там же, где и password.txt), положить файл username.txt, в него записать логин админа входа в админку
