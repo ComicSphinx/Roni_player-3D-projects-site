@@ -3,14 +3,12 @@
 var images = document.querySelectorAll('img');
 images.forEach((item) => {
     item.addEventListener('mouseover', (event) => {
-        var parentClass = defineParentClass(item);
-        var inputImage = parentClass[0].querySelector('input');
+        inputImage = defineInputImageByParentClass(item);
         inputImage.style.visibility = 'visible';
     });
 
     item.addEventListener('mouseout', (event) => {
-        var parentClass = defineParentClass(item);
-        var inputImage = parentClass[0].querySelector('input');
+        inputImage = defineInputImageByParentClass(item);
         inputImage.style.visibility = 'hidden';
     });
 })
@@ -26,8 +24,9 @@ inputs.forEach((item) => {
     });
 })
 
-function defineParentClass(item) {
+function defineInputImageByParentClass(item) {
     var parentClass;
+    var inputImage;
     
     try {
         parentClass = item.closest('.pic').className;
@@ -35,5 +34,7 @@ function defineParentClass(item) {
         parentClass = item.closest('.block').className;
     }
     parentClass = document.getElementsByClassName(parentClass);
-    return parentClass;
+    inputImage = parentClass[0].querySelector('input');
+
+    return inputImage;
 }
