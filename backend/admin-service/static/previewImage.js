@@ -1,3 +1,5 @@
+// @Author: Daniil Maslov (ComicSphinx)
+
 var fileInput = document.querySelectorAll(".inputImage");
 
 // TODO: надо будет зарефакторить эту функцию  (функция должна делать только одно действие)
