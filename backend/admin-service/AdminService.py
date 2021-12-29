@@ -12,7 +12,6 @@ class AdminService(Resource):
 
     @app.route('/admin', methods=['GET'])
     def admin():
-        # TODO: мне не понятен этот участок - if username in session
         if 'username' in session:
             return render_template('admin.html')
         else:
