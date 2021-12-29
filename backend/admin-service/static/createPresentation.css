@@ -6,15 +6,19 @@
     grid-column: 2/4;
 }
 
+.square * {
+    display: grid;
+}
+
 .square .first, .square .third {
-    padding-right: 1%
+    padding-right: 1%;
 }
 
 .square .first, .square .second {
     grid-row: 1;
 }
 
-.square .fourth, .square .second {
+.square .second, .square .fourth {
     padding-left: 1%;
 }
 
