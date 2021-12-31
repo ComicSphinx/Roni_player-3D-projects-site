@@ -2,37 +2,41 @@
 
 var fileInput = document.querySelectorAll(".inputImage");
 
-// TODO: надо будет зарефакторить эту функцию  (функция должна делать только одно действие)
+function getParentClassOfInput(input) {
+    // Определить название класса (строка), в котором лежит input (.pic или .block)
+    var parentClass;
+    try {
+        parentClass = input.closest('.pic').className;
+    } catch (err) {
+        parentClass = input.closest('.block').className;
+    }
+    // Получить класс, как объект и вернуть его
+    parentClass = document.getElementsByClassName(parentClass);
+    return parentClass;
+}
 
-// TODO: Если в блоке несколько изображений - оно подгоняет для последней. надо еще это учитывать
+function setClassImage(image, input) {
+    var file = input.files[0]
+    var reader = new FileReader();
 
-function readAndSetImage(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        // определить название класса (строка), из которого вызван input
-        try {
-            var parentClass = input.closest('.pic').className;
-            // получить этот класс
-            parentClass = document.getElementsByClassName(parentClass);
-        } catch (err) {
-            var parentClass = input.closest('.block').className;
-            // получить этот класс
-            parentClass = document.getElementsByClassName(parentClass);
-        }
-        
-        // определить картинку, в которую будет загружаться изображение
-        var image = parentClass[0].querySelector('img');
-    
-        reader.onload = function (e) {
-            image.setAttribute("src", e.target.result);
-        }
-        
-        reader.readAsDataURL(input.files[0]);
+    // Задать изображение
+    reader.onloadend = function () {
+        image.setAttribute("src", reader.result);
+    }
+
+    // Если файл успешно получен
+    if (file) {
+        reader.readAsDataURL(file);
     }
 }
 
-fileInput.forEach((item) => {
-    item.addEventListener('input', (event) => {
-        readAndSetImage(item);
+fileInput.forEach((input) => {
+    input.addEventListener('input', (event) => {
+        // Определить картинку, в которую будет загружаться изображение
+        var parentClass = getParentClassOfInput(input);
+        var image = parentClass[0].querySelector('img');
+        
+        // Задать изображение этой картинке
+        setClassImage(image, input);
     })
 });
