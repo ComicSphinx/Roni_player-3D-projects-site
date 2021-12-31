@@ -1,7 +1,20 @@
 <!-- @Author: Daniil Maslov (@ComicSphinx) -->
-<form action="{{url_for('logout')}}" method="post"><button>logout</button></form>
-<form action="{{url_for('createPresentation')}}" method="get"><button>create presentation</button></form>
-<form action="{{url_for('updatePresentation')}}" method="get"><button>update presentation</button></form>
-<form action="{{url_for('removePresentation')}}" method="get"><button>remove presentation</button></form>
-
-Вы в админке
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin panel</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminPanel.css')}}">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="grid">
+            <div class="buttons-panel">
+                <a href="{{url_for('createPresentation')}}">Создать презентацию</a>
+                <a href="{{url_for('updatePresentation')}}">Обновить презентацию</a>
+                <a href="{{url_for('removePresentation')}}">Дезактивировать презентацию</a>
+                <form action="{{url_for('logout')}}" method="post"><button>Выйти</button></form>
+            </div>
+        </div>
+    </body>
+</html>

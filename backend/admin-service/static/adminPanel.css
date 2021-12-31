@@ -1,0 +1,43 @@
+body {
+    background-color: #84BFB9;
+}
+
+.buttons-panel {
+    grid-column: 2/4;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.buttons-panel a, .buttons-panel button {
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.buttons-panel a {
+    text-align: center;
+    color:black;
+    border: 2px solid;
+    border-bottom-width: 4px;
+    padding: 15px 30px;
+    font-weight: bold;
+    transition: color .3s, background .5s;
+    letter-spacing: 2px;
+    margin: 10px 20px;
+}
+
+.buttons-panel a:hover {
+    color: #29735E;
+}
+
+@keyframes stripes-move {
+    from {
+       background-position: 0 0;
+    }
+
+    to {
+       background-position: 50px 0;
+    }
+
+.buttons-panel button {
+    left: 50%;
+}
