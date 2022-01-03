@@ -26,3 +26,4 @@
 1. При запуске в пром запустить GeneratePassword.py, пароль для админки сгенерится в файл - password.txt
 2. В admin service (там же, где и password.txt), положить файл username.txt, в него записать логин админа входа в админку
 3. Запустить initDb.py в database
+4. Отключить debug=True во всех сервисах
