@@ -6,4 +6,4 @@
 2. flask_sqlalchemy
 
 ## DB
-1. sqlite ??
+1. sqlite
