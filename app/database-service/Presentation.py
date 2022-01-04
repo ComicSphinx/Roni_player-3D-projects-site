@@ -1,13 +1,18 @@
+# @Aurhor: Daniil Maslov (ComicSphinx)
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
+db.init_app(app)
 
 class Presentation(db.Model):
-    presentationId      = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'Presentation'
+    id                  = db.Column(db.Integer, primary_key=True)
     title               = db.Column(db.String, nullable = False)
     description         = db.Column(db.String)
     descriptionTitle    = db.Column(db.String, nullable = False)
