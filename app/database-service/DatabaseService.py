@@ -1,8 +1,6 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask
 from flask_restful import Api, Resource
-from flask_sqlalchemy import SQLAlchemy
 from Models import Presentation, app
 
 api = Api(app)
@@ -12,8 +10,8 @@ class DatabaseService(Resource):
     @app.route('/getPresentationById/<id>', methods=['GET'])
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id).first_or_404()
-        return Presentation.serialize(presentation)
         
+        return Presentation.serialize(presentation)
 
 api.add_resource(DatabaseService)
 if __name__ == "__main__":
