@@ -7,7 +7,7 @@ api = Api(app)
 
 class DatabaseService(Resource):
 
-    @app.route('/getPresentationById/<id>', methods=['GET'])
+    @app.route('/getPresentationDataById/<id>', methods=['GET'])
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id).first_or_404()
         
