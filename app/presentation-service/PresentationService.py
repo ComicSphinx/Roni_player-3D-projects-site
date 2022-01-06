@@ -1,11 +1,9 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask
+from flask import Flask, request
 from flask.templating import render_template
 from flask_restful import Api, Resource
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-import sys
+import requests
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,19 +11,13 @@ api = Api(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 class PresentationService(Resource):
 
-    @app.route('/presentation/<presentationId>', methods=['GET'])
-    def presentation(presentationId):
-        # TODO: test.py срабатывает. Этот нет. Проблема с импортом.
-        data = Presentation.query.filter_by(presentationId=presentationId)
-
-        print(data.title)
-        # TODO: Мб сделать jsonify?
-        output = {'pageTitle': data.title, 'descriptionTitle': data.descriptionTitle, 'description': data.description, 'firstImage': data.firstImagePath, 
-                    'secondImage': data.secondImagePath, 'thirdImage': data.thirdImagePath, 'fourthImage': data.fourthImagePath, 
-                    'fifthImage': data.fifthImagePath, 'sixthImage': data.sixthImagePath, 'seventhImage': data.seventhImagePath, 'eightImage': data.eightImagePath,
-                    'mainImage': data.mainImagePath}
+    @app.route('/presentation/<id>', methods=['GET'])
+    def presentation(id):
+        # TODO: ЗАРЕФАКТОРИТЬ
+        url = 'http://127.0.0.1/getPresentationById/'+id
+        data = requests.get(url).json()
         
-        return render_template('presentation.html', data=output)
+        return render_template('presentation.html', data=data)
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
