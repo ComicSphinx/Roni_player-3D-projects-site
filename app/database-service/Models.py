@@ -4,14 +4,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-db.init_app(app)
 
 class Presentation(db.Model):
-    __tablename__ = 'Presentation'
+    __tablename__ = "Presentation"
     id                  = db.Column(db.Integer, primary_key=True)
     title               = db.Column(db.String, nullable = False)
     description         = db.Column(db.String)
@@ -26,3 +24,21 @@ class Presentation(db.Model):
     eightImagePath      = db.Column(db.String, nullable = False)
     mainImagePath       = db.Column(db.String, nullable = False)
     active              = db.Column(db.Boolean, nullable = False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'descriptionTitle': self.descriptionTitle,
+            'firstImagePath': self.firstImagePath,
+            'secondImagePath': self.secondImagePath,
+            'thirdImagePath': self.thirdImagePath,
+            'fourthImagePath': self.fourthImagePath,
+            'fifthImagePath': self.fifthImagePath,
+            'sixthImagePath': self.sixthImagePath,
+            'seventhImagePath': self.seventhImagePath,
+            'eightImagePath': self.eightImagePath,
+            'mainImagePath': self.mainImagePath,
+            'active': self.active
+        }
