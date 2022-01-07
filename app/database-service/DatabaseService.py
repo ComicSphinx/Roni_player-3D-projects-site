@@ -1,19 +1,28 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask
 from flask_restful import Api, Resource
-from flask_sqlalchemy import SQLAlchemy
 from Models import Presentation, app
+from flask import jsonify
 
 api = Api(app)
 
 class DatabaseService(Resource):
 
-    @app.route('/getPresentationById/<id>', methods=['GET'])
+    @app.route('/getPresentationDataById/<id>', methods=['GET'])
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id).first_or_404()
-        return Presentation.serialize(presentation)
         
+        return Presentation.serialize(presentation)
+
+    @app.route('/getPresentationsListData', methods=['GET'])
+    def getPresentationsListData():
+        presentationsList = Presentation.query.filter_by(active='True').all()
+        result = []
+        
+        for i in presentationsList:
+            result.append(Presentation.serialize(i))
+        
+        return jsonify(result)
 
 api.add_resource(DatabaseService)
 if __name__ == "__main__":

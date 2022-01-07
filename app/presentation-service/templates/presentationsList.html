@@ -14,10 +14,10 @@
         <div class="grid">
             <div class = "left-side"></div>
             <ul class="list">
-                {% for key in presentationsList.keys() %}
+                {% for i in presentationsList %}
                 <li>
-                    <a href = "{{url_for('presentation', id=key)}}">
-                        <img src = '/static/images/{{presentationsList.get(key)}}'>
+                    <a href = "{{url_for('presentation', id=i.id)}}">
+                        <img src = '/static/images/{{i.mainImagePath}}'>
                     </a>
                 </li>
                 {% endfor %}
