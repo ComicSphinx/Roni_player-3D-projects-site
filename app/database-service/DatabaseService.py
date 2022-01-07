@@ -10,7 +10,6 @@ class DatabaseService(Resource):
 
     @app.route('/getPresentationDataById/<id>', methods=['GET'])
     def getPresentationById(id):
-        # Получить все поля по id
         presentation = Presentation.query.filter_by(id=id).first_or_404()
         
         return Presentation.serialize(presentation)
@@ -22,7 +21,7 @@ class DatabaseService(Resource):
         
         for i in presentationsList:
             result.append(Presentation.serialize(i))
-
+        
         return jsonify(result)
 
 api.add_resource(DatabaseService)
