@@ -7,8 +7,8 @@ import requests
 
 app = Flask(__name__)
 api = Api(app)
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
 class PresentationService(Resource):
 
     @app.route('/presentation/<id>', methods=['GET'])
@@ -21,9 +21,11 @@ class PresentationService(Resource):
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
-        # Запросить список в дб, отобразить
+        # TODO: ссылку надо вынести в константу
+        url = 'http://127.0.0.1/getPresentationsListData'
+        data = requests.get(url).json()
 
-        return render_template('presentationsList.html', presentationsList=output)
+        return render_template('presentationsList.html', presentationsList=data)
 
 api.add_resource(PresentationService)
 if __name__ == "__main__":
