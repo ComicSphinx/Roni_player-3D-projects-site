@@ -35,20 +35,21 @@ class DatabaseService(Resource):
     # TODO: Осталось решить проблему - оно сохраняет только один файл
     @app.route('/savePresentation', methods=['POST'])
     def savePresentation():
-        if 'file' not in request.files:
-            flash('No file part')
+        file0 = request.files['file0']
+        file1 = request.files['file1']
+        file2 = request.files['file2']
+        file3 = request.files['file3']
+        file4 = request.files['file4']
+        file5 = request.files['file5']
+        file6 = request.files['file6']
+        file7 = request.files['file7']
         
-        file = request.files['file']
-        if file.filename == '':
-            flash('No selected file')
 
-        if file:
-            nextId = DatabaseService.getMaxId()+1
-            DatabaseService.createPresentationDir(nextId)
-            filename = secure_filename(file.filename)
-            path = UPLOAD_FOLDER_PATH+str(nextId)+'/'+filename
-            
-            file.save(path)
+        # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
+        dirId = DatabaseService.getMaxId()+1
+        DatabaseService.createPresentationDir(dirId)
+
+        DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, dirId)
             
         return "successful"
 
@@ -66,11 +67,31 @@ class DatabaseService(Resource):
         return maxId    
 
     # Сохранить картинки
-    def saveImages(files, dirId):
-        for file in files:
-            filename = secure_filename(file.filename)
-            path = UPLOAD_FOLDER_PATH+str(dirId)
-            file.save(os.path.join(path), filename)
+    def saveImages(file0, file1, file2, file3, file4, file5, file6, file7, dirId):
+        filename = secure_filename(file0.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file0.save(path)
+        filename = secure_filename(file1.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file1.save(path)
+        filename = secure_filename(file2.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file2.save(path)
+        filename = secure_filename(file3.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file3.save(path)
+        filename = secure_filename(file4.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file4.save(path)
+        filename = secure_filename(file5.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file5.save(path)
+        filename = secure_filename(file6.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file6.save(path)
+        filename = secure_filename(file7.filename)
+        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+        file7.save(path)
 
     # Сохранить данные в таблицу
     def saveData():
