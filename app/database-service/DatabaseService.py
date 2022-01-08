@@ -2,8 +2,8 @@
 
 from flask_restful import Api, Resource
 from werkzeug.utils import secure_filename
-from Models import Presentation, app
-from flask import jsonify, request, flash
+from Models import Presentation, app, db
+from flask import jsonify, request
 import os
 
 api = Api(app)
@@ -32,7 +32,7 @@ class DatabaseService(Resource):
         return jsonify(result)
 
     # TODO: Рефакторинг
-    # TODO: Осталось решить проблему - оно сохраняет только один файл
+    # TODO: сделать так, чтобы подтягивался текст(description, title) и подставить в newPresentation
     @app.route('/savePresentation', methods=['POST'])
     def savePresentation():
         file0 = request.files['file0']
@@ -46,11 +46,19 @@ class DatabaseService(Resource):
         
 
         # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
-        dirId = DatabaseService.getMaxId()+1
-        DatabaseService.createPresentationDir(dirId)
+        newPresentationId = DatabaseService.getMaxId()+1
+        DatabaseService.createPresentationDir(newPresentationId)
 
-        DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, dirId)
-            
+        DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, newPresentationId)
+    
+        newPresentation = Presentation(newPresentationId, 'test title', 'description', 'title',
+                                        secure_filename(file0.filename), secure_filename(file1.filename),
+                                        secure_filename(file2.filename), secure_filename(file3.filename),
+                                        secure_filename(file4.filename), secure_filename(file5.filename),
+                                        secure_filename(file6.filename), secure_filename(file7.filename),
+                                        secure_filename(file0.filename), True)
+        DatabaseService.saveData(newPresentation)
+
         return "successful"
 
     def createPresentationDir(id):
@@ -94,10 +102,11 @@ class DatabaseService(Resource):
         file7.save(path)
 
     # Сохранить данные в таблицу
-    def saveData():
-        print()
+    # На вход принимает класс с заполненными полями
+    def saveData(newPresentation):
+        db.session.add(newPresentation)
+        db.session.commit()
 
 api.add_resource(DatabaseService)
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=80, debug=True)
-    DatabaseService.getMaxId()
