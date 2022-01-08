@@ -25,6 +25,23 @@ class Presentation(db.Model):
     mainImagePath       = db.Column(db.String, nullable = False)
     active              = db.Column(db.Boolean, nullable = False)
 
+    def __init__(self, id, title, description, descriptionTitle, firstImagePath, secondImagePath, thirdImagePath, fourthImagePath, fifthImagePath, sixthImagePath,
+                    seventhImagePath, eightImagePath, mainImagePath, active):
+        self.id = id
+        self.title = title
+        self.description = description
+        self.descriptionTitle = descriptionTitle
+        self.firstImagePath = firstImagePath
+        self.secondImagePath = secondImagePath
+        self.thirdImagePath = thirdImagePath
+        self.fourthImagePath = fourthImagePath
+        self.fifthImagePath = fifthImagePath
+        self.sixthImagePath = sixthImagePath
+        self.seventhImagePath = seventhImagePath
+        self.eightImagePath = eightImagePath
+        self.mainImagePath = mainImagePath
+        self.active = active
+
     def serialize(self):
         return {
             'id': self.id,

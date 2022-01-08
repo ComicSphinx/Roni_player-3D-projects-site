@@ -22,30 +22,32 @@
             </div>            
             <div class = "right-side"></div>
             <div class = "first block">
-                <img src="/static/images/{{data.get('firstImagePath')}}">
+                 <!-- TODO: Зарефакторить пути, я не думаю, что оно именно так должно выглядеть -->
+                <img src="http://127.0.0.1//getImage/firstImagePath/ByPresentationId/{{data.id}}">
+                <!-- <img src="/static/images/{{data.get('firstImagePath')}}"> -->
             </div>
             <div class = "square block">
                 <div id = "first" class = "left">
-                    <img src="/static/images/{{data.get('secondImagePath')}}">
+                    <img src="http://127.0.0.1//getImage/secondImagePath/ByPresentationId/{{data.id}}">
                 </div>
                 <div id = "second" class = "right">
-                    <img src="/static/images/{{data.get('thirdImagePath')}}">
+                    <img src="http://127.0.0.1//getImage/thirdImagePath/ByPresentationId/{{data.id}}">
                 </div>
                 <div id = "third" class ="left">
-                    <img src="/static/images/{{data.get('fourthImagePath')}}">
+                    <img src="http://127.0.0.1//getImage/fourthImagePath/ByPresentationId/{{data.id}}">
                 </div>
                 <div id = "fourth" class = "right">
-                    <img src="/static/images/{{data.get('fifthImagePath')}}">
+                    <img src="http://127.0.0.1//getImage/fifthImagePath/ByPresentationId/{{data.id}}">
                 </div>
             </div>
             <div class = "second block">
-                <img src="/static/images/{{data.get('sixthImagePath')}}">
+                <img src="http://127.0.0.1//getImage/sixthImagePath/ByPresentationId/{{data.id}}">
             </div>
             <div class = "third block">
-                <img src="/static/images/{{data.get('seventhImagePath')}}">
+                <img src="http://127.0.0.1//getImage/seventhImagePath/ByPresentationId/{{data.id}}">
             </div>
             <div class = "fourth block">
-                <img src="/static/images/{{data.get('eightImagePath')}}">
+                <img src="http://127.0.0.1//getImage/eightImagePath/ByPresentationId/{{data.id}}">
             </div>
         </div>
     </body>
