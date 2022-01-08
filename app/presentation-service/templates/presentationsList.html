@@ -17,7 +17,8 @@
                 {% for i in presentationsList %}
                 <li>
                     <a href = "{{url_for('presentation', id=i.id)}}">
-                        <img src = '/static/images/{{i.mainImagePath}}'>
+                        <img src = 'http://127.0.0.1//getImage/mainImagePath/ByPresentationId/{{i.id}}'>
+                        <!-- <img src = '/static/images/{{i.mainImagePath}}'> -->
                     </a>
                 </li>
                 {% endfor %}

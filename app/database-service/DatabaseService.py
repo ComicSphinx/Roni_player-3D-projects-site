@@ -1,9 +1,9 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
 from flask_restful import Api, Resource
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, send_file
 from Models import Presentation, app, db
-from flask import jsonify, request
+from flask import jsonify, request, send_file
 import os
 
 api = Api(app)
@@ -11,7 +11,6 @@ app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 UPLOAD_FOLDER_PATH = 'static/presentations/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-app.config['UPLOAD_FOLDER_PATH'] = UPLOAD_FOLDER_PATH
 
 class DatabaseService(Resource):
 
@@ -23,13 +22,21 @@ class DatabaseService(Resource):
 
     @app.route('/getPresentationsListData', methods=['GET'])
     def getPresentationsListData():
-        presentationsList = Presentation.query.filter_by(active='True').all()
+        presentationsList = Presentation.query.filter_by(active=True).all()
         result = []
         
         for i in presentationsList:
             result.append(Presentation.serialize(i))
         
         return jsonify(result)
+
+    # TODO: зарефаткорить, метод не должен так называться, и взаимодействие так себе, и название полей
+    @app.route('/getImage/<imageName>/ByPresentationId/<presentationId>')
+    def getImageByPresentationId(imageName, presentationId):
+        presentation = DatabaseService.getPresentationById(presentationId)
+        filename = presentation.get(imageName)
+        path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
+        return send_file(path, mimetype='image/jpeg')
 
     # TODO: Рефакторинг
     # TODO: сделать так, чтобы подтягивался текст(description, title) и подставить в newPresentation
@@ -51,6 +58,7 @@ class DatabaseService(Resource):
 
         DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, newPresentationId)
     
+        # TODO: тут надо будет писать True вместо 'True', когда разберусь с булевностью поля
         newPresentation = Presentation(newPresentationId, 'test title', 'description', 'title',
                                         secure_filename(file0.filename), secure_filename(file1.filename),
                                         secure_filename(file2.filename), secure_filename(file3.filename),
