@@ -34,23 +34,22 @@ class DatabaseService(Resource):
     # TODO: Рефакторинг
     # TODO: Осталось решить проблему - оно сохраняет только один файл
     @app.route('/savePresentation', methods=['POST'])
-    def addPresentation():
-        nextId = DatabaseService.getMaxId()+1
-        DatabaseService.createPresentationDir(nextId)
-
+    def savePresentation():
         if 'file' not in request.files:
-            flash('no selected files')
-        uploadedFiles = request.files['file']
+            flash('No file part')
         
-        if uploadedFiles.filename == '':
-            flash('no selected files')
-        
-        # сделать обработку на корректный тип файла (https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/)
-        if uploadedFiles:
-            filename = secure_filename(uploadedFiles.filename)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+
+        if file:
+            nextId = DatabaseService.getMaxId()+1
+            DatabaseService.createPresentationDir(nextId)
+            filename = secure_filename(file.filename)
             path = UPLOAD_FOLDER_PATH+str(nextId)+'/'+filename
-            uploadedFiles.save(path)
-        # DatabaseService.saveImages(uploadedFiles, nextId)
+            
+            file.save(path)
+            
         return "successful"
 
     def createPresentationDir(id):
