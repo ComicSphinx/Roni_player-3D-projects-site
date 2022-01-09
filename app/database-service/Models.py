@@ -13,7 +13,6 @@ class Presentation(db.Model):
     id                  = db.Column(db.Integer, primary_key=True)
     title               = db.Column(db.String, nullable = False)
     description         = db.Column(db.String)
-    descriptionTitle    = db.Column(db.String, nullable = False)
     firstImagePath      = db.Column(db.String, nullable = False)
     secondImagePath     = db.Column(db.String, nullable = False)
     thirdImagePath      = db.Column(db.String, nullable = False)
@@ -25,12 +24,11 @@ class Presentation(db.Model):
     mainImagePath       = db.Column(db.String, nullable = False)
     active              = db.Column(db.Boolean, nullable = False)
 
-    def __init__(self, id, title, description, descriptionTitle, firstImagePath, secondImagePath, thirdImagePath, fourthImagePath, fifthImagePath, sixthImagePath,
+    def __init__(self, id, title, description, firstImagePath, secondImagePath, thirdImagePath, fourthImagePath, fifthImagePath, sixthImagePath,
                     seventhImagePath, eightImagePath, mainImagePath, active):
         self.id = id
         self.title = title
         self.description = description
-        self.descriptionTitle = descriptionTitle
         self.firstImagePath = firstImagePath
         self.secondImagePath = secondImagePath
         self.thirdImagePath = thirdImagePath
@@ -47,7 +45,6 @@ class Presentation(db.Model):
             'id': self.id,
             'title': self.title,
             'description': self.description,
-            'descriptionTitle': self.descriptionTitle,
             'firstImagePath': self.firstImagePath,
             'secondImagePath': self.secondImagePath,
             'thirdImagePath': self.thirdImagePath,
