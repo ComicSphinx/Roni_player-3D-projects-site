@@ -57,7 +57,10 @@
                 <input type="file" name="file7" value="Выберите изображение" class="inputImage" form="createPresentation">
             </div>
         </div>
+        <input type="text" hidden="true" form="createPresentation" id="inputTitle">
+        <input type="text" hidden="true" form="createPresentation" id="inputDescription">
         <script src="{{url_for('static', filename='previewImage.js')}}"></script>
         <script src="{{url_for('static', filename='makeVisibleInput.js')}}"></script>
+        <script src="{{url_for('static', filename='fillTextInput.js')}}"></script>
     </body>
 </html>
