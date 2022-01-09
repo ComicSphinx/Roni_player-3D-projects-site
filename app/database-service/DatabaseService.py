@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 class DatabaseService(Resource):
 
     @app.route('/getPresentationDataById/<id>', methods=['GET'])
-    def getPresentationById(id):
+    def getPresentationDataById(id):
         presentation = Presentation.query.filter_by(id=id).first_or_404()
         
         return Presentation.serialize(presentation)
