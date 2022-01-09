@@ -14,9 +14,7 @@
 4. Как делать бэкап, когда сайт будет лежать в облаке?
 
 ## Задачи на рефакторинг
-1. PresentationService - Todo's
-2. Сейчас я тащу картинки из presentation-service/static/images, но норм ли это, если брать в расчет, что теперь у меня база данных отдельна от данного сервиса? Я не думаю.
-3. Походу DB Active = str. Надо сделать её именно Boolean. Ибо в DatabaseService приходится делать presentationsList = Presentation.query.filter_by(active='True').all()
+1. Убрать titlePage, в тайтле страницы отображать descriptionTitle, descriptionTitle переименовать в title
 ?. Верно ли я применяю flask_restful?
 
 ## Задачи на промышленную эксплуатацию
