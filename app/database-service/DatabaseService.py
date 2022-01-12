@@ -38,8 +38,6 @@ class DatabaseService(Resource):
         path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
         return send_file(path, mimetype='image/jpeg')
 
-    # TODO: Рефакторинг
-    # TODO: Функция не должна делать так много, большую часть следует вынести в маленькие функции
     @app.route('/Presentation', methods=['POST'])
     def Presentation():
         # get title, description and images from request
@@ -47,20 +45,21 @@ class DatabaseService(Resource):
         description = request.form.get('description')
         images = DatabaseService.getImagesFromRequest()
 
-        # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
+        # Get ID for a new presentation
         newPresentationId = DatabaseService.getNewPresentationId()
-        DatabaseService.createPresentationDir(newPresentationId)
-
-        DatabaseService.saveImages(images, newPresentationId)
     
-        # TODO: тут надо будет писать True вместо 'True', когда разберусь с булевностью поля
+        # Create Presentation Object and save data from request to database
         newPresentation = Presentation(newPresentationId, title, description,
                                         secure_filename(images[0].filename), secure_filename(images[1].filename),
                                         secure_filename(images[2].filename), secure_filename(images[3].filename),
                                         secure_filename(images[4].filename), secure_filename(images[5].filename),
                                         secure_filename(images[6].filename), secure_filename(images[7].filename),
-                                        secure_filename(images[0].filename), True) # последнее - это main
+                                        secure_filename(images[0].filename), True)
         DatabaseService.saveData(newPresentation)
+        
+        # Create new dir and save there images
+        DatabaseService.createPresentationDir(newPresentationId)
+        DatabaseService.saveImages(images, newPresentationId)
 
         return "successful"
 
