@@ -42,13 +42,13 @@ class DatabaseService(Resource):
     # TODO: Функция не должна делать так много, большую часть следует вынести в маленькие функции
     @app.route('/Presentation', methods=['POST'])
     def Presentation():
-        # get title and description
+        # get title, description and images from request
         title = request.form.get('title')
         description = request.form.get('description')
         images = DatabaseService.getImagesFromRequest()
 
         # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
-        newPresentationId = DatabaseService.getMaxId()+1
+        newPresentationId = DatabaseService.getNewPresentationId()
         DatabaseService.createPresentationDir(newPresentationId)
 
         DatabaseService.saveImages(images, newPresentationId)
@@ -84,7 +84,10 @@ class DatabaseService(Resource):
         for i in presentationsList:
             if i.id > maxId:
                 maxId = i.id
-        return maxId    
+        return maxId
+
+    def getNewPresentationId():
+        return DatabaseService.getMaxId()+1
 
     # Сохранить картинки
     def saveImages(images, dirId):
