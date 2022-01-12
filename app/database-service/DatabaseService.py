@@ -50,7 +50,8 @@ class DatabaseService(Resource):
         file5 = request.files['file5']
         file6 = request.files['file6']
         file7 = request.files['file7']
-        
+        title = request.form.get('title')
+        description = request.form.get('description')
 
         # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
         newPresentationId = DatabaseService.getMaxId()+1
@@ -59,7 +60,7 @@ class DatabaseService(Resource):
         DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, newPresentationId)
     
         # TODO: тут надо будет писать True вместо 'True', когда разберусь с булевностью поля
-        newPresentation = Presentation(newPresentationId, 'test title', 'description', 'title',
+        newPresentation = Presentation(newPresentationId, title, description,
                                         secure_filename(file0.filename), secure_filename(file1.filename),
                                         secure_filename(file2.filename), secure_filename(file3.filename),
                                         secure_filename(file4.filename), secure_filename(file5.filename),
