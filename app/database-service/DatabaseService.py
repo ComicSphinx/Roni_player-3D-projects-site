@@ -11,57 +11,70 @@ app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 UPLOAD_FOLDER_PATH = 'static/presentations/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} # TODO: ПРИМЕНИТЬ
+NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE = 'Can not handle this request'
 
 class DatabaseService(Resource):
 
     @app.route('/getPresentationDataById/<id>', methods=['GET'])
     def getPresentationDataById(id):
-        presentation = Presentation.query.filter_by(id=id).first_or_404()
-        
-        return Presentation.serialize(presentation)
+        if request.method == 'GET':
+            presentation = Presentation.query.filter_by(id=id).first_or_404()
+
+            return Presentation.serialize(presentation)
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     @app.route('/getPresentationsListData', methods=['GET'])
     def getPresentationsListData():
-        presentationsList = Presentation.query.filter_by(active=True).all()
-        result = []
-        
-        for i in presentationsList:
-            result.append(Presentation.serialize(i))
-        
-        return jsonify(result)
+        if request.method == 'GET':
+            presentationsList = Presentation.query.filter_by(active=True).all()
+            result = []
+
+            for i in presentationsList:
+                result.append(Presentation.serialize(i))
+
+            return jsonify(result)
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     # TODO: зарефаткорить, метод не должен так называться, и взаимодействие так себе, и название полей
-    @app.route('/getImage/<imageName>/ByPresentationId/<presentationId>')
+    @app.route('/getImage/<imageName>/ByPresentationId/<presentationId>', methods=['GET'])
     def getImageByPresentationId(imageName, presentationId):
-        presentation = DatabaseService.getPresentationDataById(presentationId)
-        filename = presentation.get(imageName)
-        path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
-        return send_file(path, mimetype='image/jpeg')
+        if request.method == 'GET':
+            presentation = DatabaseService.getPresentationDataById(presentationId)
+            filename = presentation.get(imageName)
+            path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
+            return send_file(path, mimetype='image/jpeg')
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     @app.route('/Presentation', methods=['POST'])
     def Presentation():
-        # get title, description and images from request
-        title = request.form.get('title')
-        description = request.form.get('description')
-        images = DatabaseService.getImagesFromRequest()
+        if request.method == 'POST':
+            # get title, description and images from request
+            title = request.form.get('title')
+            description = request.form.get('description')
+            images = DatabaseService.getImagesFromRequest()
 
-        # Get ID for a new presentation
-        newPresentationId = DatabaseService.getNewPresentationId()
-    
-        # Create Presentation Object and save data from request to database
-        newPresentation = Presentation(newPresentationId, title, description,
-                                        secure_filename(images[0].filename), secure_filename(images[1].filename),
-                                        secure_filename(images[2].filename), secure_filename(images[3].filename),
-                                        secure_filename(images[4].filename), secure_filename(images[5].filename),
-                                        secure_filename(images[6].filename), secure_filename(images[7].filename),
-                                        secure_filename(images[0].filename), True)
-        DatabaseService.saveData(newPresentation)
-        
-        # Create new dir and save there images
-        DatabaseService.createPresentationDir(newPresentationId)
-        DatabaseService.saveImages(images, newPresentationId)
+            # Get ID for a new presentation
+            newPresentationId = DatabaseService.getNewPresentationId()
 
-        return "successful"
+            # Create Presentation Object and save data from request to database
+            newPresentation = Presentation(newPresentationId, title, description,
+                                            secure_filename(images[0].filename), secure_filename(images[1].filename),
+                                            secure_filename(images[2].filename), secure_filename(images[3].filename),
+                                            secure_filename(images[4].filename), secure_filename(images[5].filename),
+                                            secure_filename(images[6].filename), secure_filename(images[7].filename),
+                                            secure_filename(images[0].filename), True)
+            DatabaseService.saveData(newPresentation)
+
+            # Create new dir and save there images
+            DatabaseService.createPresentationDir(newPresentationId)
+            DatabaseService.saveImages(images, newPresentationId)
+
+            return "successful"
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     def getImagesFromRequest():
         images = []
