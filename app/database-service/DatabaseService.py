@@ -39,9 +39,9 @@ class DatabaseService(Resource):
         return send_file(path, mimetype='image/jpeg')
 
     # TODO: Рефакторинг
-    # TODO: сделать так, чтобы подтягивался текст(description, title) и подставить в newPresentation
-    @app.route('/savePresentation', methods=['POST'])
-    def savePresentation():
+    # TODO: Функция не должна делать так много, большую часть следует вынести в маленькие функции
+    @app.route('/Presentation', methods=['POST'])
+    def Presentation():
         title = request.form.get('title')
         description = request.form.get('description')
         images = []
