@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 class DatabaseService(Resource):
 
     @app.route('/getPresentationDataById/<id>', methods=['GET'])
-    def getPresentationById(id):
+    def getPresentationDataById(id):
         presentation = Presentation.query.filter_by(id=id).first_or_404()
         
         return Presentation.serialize(presentation)
@@ -33,7 +33,7 @@ class DatabaseService(Resource):
     # TODO: зарефаткорить, метод не должен так называться, и взаимодействие так себе, и название полей
     @app.route('/getImage/<imageName>/ByPresentationId/<presentationId>')
     def getImageByPresentationId(imageName, presentationId):
-        presentation = DatabaseService.getPresentationById(presentationId)
+        presentation = DatabaseService.getPresentationDataById(presentationId)
         filename = presentation.get(imageName)
         path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
         return send_file(path, mimetype='image/jpeg')
@@ -42,6 +42,8 @@ class DatabaseService(Resource):
     # TODO: сделать так, чтобы подтягивался текст(description, title) и подставить в newPresentation
     @app.route('/savePresentation', methods=['POST'])
     def savePresentation():
+        title = request.form.get('title')
+        description = request.form.get('description')
         file0 = request.files['file0']
         file1 = request.files['file1']
         file2 = request.files['file2']
@@ -50,7 +52,6 @@ class DatabaseService(Resource):
         file5 = request.files['file5']
         file6 = request.files['file6']
         file7 = request.files['file7']
-        
 
         # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
         newPresentationId = DatabaseService.getMaxId()+1
@@ -59,7 +60,7 @@ class DatabaseService(Resource):
         DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, newPresentationId)
     
         # TODO: тут надо будет писать True вместо 'True', когда разберусь с булевностью поля
-        newPresentation = Presentation(newPresentationId, 'test title', 'description', 'title',
+        newPresentation = Presentation(newPresentationId, title, description,
                                         secure_filename(file0.filename), secure_filename(file1.filename),
                                         secure_filename(file2.filename), secure_filename(file3.filename),
                                         secure_filename(file4.filename), secure_filename(file5.filename),
