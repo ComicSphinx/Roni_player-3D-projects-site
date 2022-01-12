@@ -10,7 +10,7 @@ api = Api(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 UPLOAD_FOLDER_PATH = 'static/presentations/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} # TODO: ПРИМЕНИТЬ
 
 class DatabaseService(Resource):
 
@@ -44,28 +44,25 @@ class DatabaseService(Resource):
     def savePresentation():
         title = request.form.get('title')
         description = request.form.get('description')
-        file0 = request.files['file0']
-        file1 = request.files['file1']
-        file2 = request.files['file2']
-        file3 = request.files['file3']
-        file4 = request.files['file4']
-        file5 = request.files['file5']
-        file6 = request.files['file6']
-        file7 = request.files['file7']
+        images = []
+        filename = 'file'
+        for number in range(8):
+            fullFilename = filename+str(number)
+            images.append(request.files[fullFilename])
 
         # TODO: папку надо создавать после того, как убедимся, что были получены все 8 файлов
         newPresentationId = DatabaseService.getMaxId()+1
         DatabaseService.createPresentationDir(newPresentationId)
 
-        DatabaseService.saveImages(file0, file1, file2, file3, file4, file5, file6, file7, newPresentationId)
+        DatabaseService.saveImages(images, newPresentationId)
     
         # TODO: тут надо будет писать True вместо 'True', когда разберусь с булевностью поля
         newPresentation = Presentation(newPresentationId, title, description,
-                                        secure_filename(file0.filename), secure_filename(file1.filename),
-                                        secure_filename(file2.filename), secure_filename(file3.filename),
-                                        secure_filename(file4.filename), secure_filename(file5.filename),
-                                        secure_filename(file6.filename), secure_filename(file7.filename),
-                                        secure_filename(file0.filename), True)
+                                        secure_filename(images[0].filename), secure_filename(images[1].filename),
+                                        secure_filename(images[2].filename), secure_filename(images[3].filename),
+                                        secure_filename(images[4].filename), secure_filename(images[5].filename),
+                                        secure_filename(images[6].filename), secure_filename(images[7].filename),
+                                        secure_filename(images[0].filename), True) # последнее - это main
         DatabaseService.saveData(newPresentation)
 
         return "successful"
@@ -84,31 +81,11 @@ class DatabaseService(Resource):
         return maxId    
 
     # Сохранить картинки
-    def saveImages(file0, file1, file2, file3, file4, file5, file6, file7, dirId):
-        filename = secure_filename(file0.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file0.save(path)
-        filename = secure_filename(file1.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file1.save(path)
-        filename = secure_filename(file2.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file2.save(path)
-        filename = secure_filename(file3.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file3.save(path)
-        filename = secure_filename(file4.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file4.save(path)
-        filename = secure_filename(file5.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file5.save(path)
-        filename = secure_filename(file6.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file6.save(path)
-        filename = secure_filename(file7.filename)
-        path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-        file7.save(path)
+    def saveImages(images, dirId):
+        for i in range(len(images)):
+            filename = secure_filename(images[i].filename)
+            path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+            images[i].save(path)
 
     # Сохранить данные в таблицу
     # На вход принимает класс с заполненными полями
