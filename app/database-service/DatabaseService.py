@@ -15,8 +15,8 @@ NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE = 'Can not handle this request'
 
 class DatabaseService(Resource):
 
-    @app.route('/getPresentationDataById/<id>', methods=['GET'])
-    def getPresentationDataById(id):
+    @app.route('/presentation/<id>', methods=['GET'])
+    def getPresentation(id):
         if request.method == 'GET':
             presentation = Presentation.query.filter_by(id=id).first_or_404()
 
@@ -38,18 +38,18 @@ class DatabaseService(Resource):
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     # TODO: зарефаткорить, метод не должен так называться, и взаимодействие так себе, и название полей
-    @app.route('/getImage/<imageName>/ByPresentationId/<presentationId>', methods=['GET'])
-    def getImageByPresentationId(imageName, presentationId):
+    @app.route('/getImage/<imageFieldName>/ByPresentationId/<id>', methods=['GET'])
+    def getImageByPresentationId(imageFieldName, id):
         if request.method == 'GET':
-            presentation = DatabaseService.getPresentationDataById(presentationId)
-            filename = presentation.get(imageName)
-            path = UPLOAD_FOLDER_PATH+str(presentationId)+'/'+filename
+            presentation = DatabaseService.getPresentation(id)
+            filename = presentation.get(imageFieldName)
+            path = UPLOAD_FOLDER_PATH+str(id)+'/'+filename
             return send_file(path, mimetype='image/jpeg')
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
-    @app.route('/Presentation', methods=['POST'])
-    def Presentation():
+    @app.route('/presentation', methods=['POST'])
+    def createPresentation():
         if request.method == 'POST':
             # get title, description and images from request
             title = request.form.get('title')
