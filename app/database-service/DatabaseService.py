@@ -19,7 +19,6 @@ class DatabaseService(Resource):
     def getPresentation(id):
         if request.method == 'GET':
             presentation = Presentation.query.filter_by(id=id).first_or_404()
-
             return Presentation.serialize(presentation)
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
@@ -66,7 +65,7 @@ class DatabaseService(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            DatabaseService.saveData(newPresentation)
+            DatabaseService.saveDataToDb(newPresentation)
 
             # Create new dir and save there images
             DatabaseService.createPresentationDir(newPresentationId)
@@ -86,7 +85,6 @@ class DatabaseService(Resource):
         return images
 
     def createPresentationDir(id):
-        # TODO: Надо сделать обработку ошибок, когда не получилось создать папку
         path = UPLOAD_FOLDER_PATH+str(id)
         os.mkdir(path)
 
@@ -108,9 +106,8 @@ class DatabaseService(Resource):
             path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
             images[i].save(path)
 
-    # Сохранить данные в таблицу
     # На вход принимает класс с заполненными полями
-    def saveData(newPresentation):
+    def saveDataToDb(newPresentation):
         db.session.add(newPresentation)
         db.session.commit()
 
