@@ -16,7 +16,7 @@ class PresentationService(Resource):
     @app.route('/presentation/<id>', methods=['GET'])
     def presentation(id):
         # Отправить запрос, получить ответ
-        url = DB_SERVICE_BASE_URL+'/getPresentationDataById/'+id
+        url = DB_SERVICE_BASE_URL+'/presentation/'+id
         data = requests.get(url).json()
 
         return render_template('presentation.html', data=data)
