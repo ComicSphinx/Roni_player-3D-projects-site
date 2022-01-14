@@ -36,8 +36,7 @@ class DatabaseService(Resource):
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
-    # TODO: зарефаткорить, метод не должен так называться, и взаимодействие так себе, и название полей
-    @app.route('/getImage/<imageFieldName>/ByPresentationId/<id>', methods=['GET'])
+    @app.route('/getPresentation/<id>/image/<imageFieldName>', methods=['GET'])
     def getImageByPresentationId(imageFieldName, id):
         if request.method == 'GET':
             presentation = DatabaseService.getPresentation(id)
