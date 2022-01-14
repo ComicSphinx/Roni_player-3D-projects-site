@@ -53,11 +53,11 @@ class AdminService(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/removePresentation', methods=['DELETE', 'GET'])
-    def removePresentation():
+    @app.route('/deletePresentation', methods=['GET'])
+    def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
-                return render_template('removePresentation.html')
+                return render_template('deletePresentation.html')
         else:
             return redirect(url_for('login'))
 
