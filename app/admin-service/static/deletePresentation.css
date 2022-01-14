@@ -1,0 +1,7 @@
+input, ul {
+    grid-column: 2;
+}
+
+ul {
+    padding: 0;
+}
