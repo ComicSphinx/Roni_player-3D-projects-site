@@ -64,7 +64,7 @@ class DatabaseService(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            DatabaseService.saveDataToDb(newPresentation)
+            DatabaseService.savePresentationToDb(newPresentation)
 
             # Create new dir and save there images
             DatabaseService.createPresentationDir(newPresentationId)
@@ -106,7 +106,7 @@ class DatabaseService(Resource):
             images[i].save(path)
 
     # На вход принимает класс с заполненными полями
-    def saveDataToDb(newPresentation):
+    def savePresentationToDb(newPresentation):
         db.session.add(newPresentation)
         db.session.commit()
 
