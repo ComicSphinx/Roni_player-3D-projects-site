@@ -64,7 +64,6 @@ class AdminService(Resource):
 def checkCredentials(filename, value):
     file = open(filename, 'r')
     if (file.read() == value):
-        print("Password equals")
         return 1
     else:
         return 0
