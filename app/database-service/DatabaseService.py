@@ -37,7 +37,7 @@ class DatabaseService(Resource):
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     @app.route('/getPresentation/<id>/image/<imageFieldName>', methods=['GET'])
-    def getImageByPresentationId(imageFieldName, id):
+    def getImageByPresentationIdAndFieldName(imageFieldName, id):
         if request.method == 'GET':
             presentation = DatabaseService.getPresentation(id)
             filename = presentation.get(imageFieldName)
@@ -49,15 +49,15 @@ class DatabaseService(Resource):
     @app.route('/presentation', methods=['POST'])
     def createPresentation():
         if request.method == 'POST':
-            # get title, description and images from request
+            # Get title, description and images from request
             title = request.form.get('title')
             description = request.form.get('description')
             images = DatabaseService.getImagesFromRequest()
 
-            # Get ID for a new presentation
+            # Generate ID for a new presentation
             newPresentationId = DatabaseService.getNewPresentationId()
 
-            # Create Presentation Object and save data from request to database
+            # Create Presentation Object and it to database
             newPresentation = Presentation(newPresentationId, title, description,
                                             secure_filename(images[0].filename), secure_filename(images[1].filename),
                                             secure_filename(images[2].filename), secure_filename(images[3].filename),
@@ -68,7 +68,7 @@ class DatabaseService(Resource):
 
             # Create new dir and save there images
             DatabaseService.createPresentationDir(newPresentationId)
-            DatabaseService.saveImages(images, newPresentationId)
+            DatabaseService.savePresentationImagesToDir(images, newPresentationId)
 
             return "successful"
         else:
@@ -99,7 +99,7 @@ class DatabaseService(Resource):
         return DatabaseService.getMaxId()+1
 
     # Сохранить картинки
-    def saveImages(images, dirId):
+    def savePresentationImagesToDir(images, dirId):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
             path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
