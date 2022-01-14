@@ -10,7 +10,6 @@ api = Api(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 UPLOAD_FOLDER_PATH = 'static/presentations/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} # TODO: ПРИМЕНИТЬ
 NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE = 'Can not handle this request'
 
 class DatabaseService(Resource):
