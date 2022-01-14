@@ -3,10 +3,13 @@
 from flask import Flask, session, redirect, url_for, request, flash
 from flask.templating import render_template
 from flask_restful import Api, Resource
+import requests
 
 app = Flask(__name__)
 api = Api(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
+
+DB_SERVICE_BASE_URL = 'http://127.0.0.1'
 
 class AdminService(Resource):
 
@@ -57,7 +60,11 @@ class AdminService(Resource):
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
-                return render_template('deletePresentation.html')
+                # Отправить запрос, получить ответ
+                url = DB_SERVICE_BASE_URL+'/getPresentationsListData'
+                data = requests.get(url).json()
+
+                return render_template('deletePresentation.html', presentationsList=data)
         else:
             return redirect(url_for('login'))
 
