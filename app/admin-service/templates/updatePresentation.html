@@ -1,0 +1,67 @@
+<!-- @Author: Daniil Maslov (@ComicSphinx) -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add presentation</title>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='presentation.css')}}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class = "grid">
+            <div class = "left-side"></div>
+            <div class = "review">
+                <div class = "menu">
+                    <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
+                    <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
+                    <!-- TODO: Надо будет пути заменить на относительные или вообще всё это как-то переделать -->
+                    <form action="http://127.0.0.1:80/updatePresentation" method="post" id ="updatePresentation"><button>Обновить презентацию</button>
+                </div>
+                <h1 contenteditable="true">{{ data.get('title') }}</h1>
+                <p contenteditable="true">{{ data.get('description') }}</p>
+            </div>            
+            <div class = "right-side"></div>
+            <div class = "first block">
+                <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/firstImagePath">
+                <input type="file" name="file0" value="Выберите изображение" class="inputImage" form="createPresentation">
+            </div>
+            <div class = "square block">
+                <div class = "first pic">
+                    <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/secondImagePath">
+                    <input type="file" name="file1" value="Выберите изображение" class="inputImage" form="createPresentation">
+                </div>
+                <div class = "second pic">
+                    <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/thirdImagePath">
+                    <input type="file" name="file2" value="Выберите изображение" class="inputImage" form="createPresentation">
+                </div>
+                <div class = "third pic">
+                    <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/fourthImagePath">
+                    <input type="file" name="file3" value="Выберите изображение" class="inputImage" form="createPresentation">
+                </div>
+                <div class = "fourth pic">
+                    <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/fifthImagePath">
+                    <input type="file" name="file4" value="Выберите изображение" class="inputImage" form="createPresentation">
+                </div>
+            </div>
+            <div class = "second block">
+                <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/sixthImagePath">
+                <input type="file" name="file5" value="Выберите изображение" class="inputImage" form="createPresentation">
+            </div>
+            <div class = "third block">
+                <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/seventhImagePath">
+                <input type="file" name="file6" value="Выберите изображение" class="inputImage" form="createPresentation">
+            </div>
+            <div class = "fourth block">
+                <img src="http://127.0.0.1/getPresentation/{{data.id}}/image/eightImagePath">
+                <input type="file" name="file7" value="Выберите изображение" class="inputImage" form="createPresentation">
+            </div>
+        </div>
+        <input type="text" name="title" hidden="true" form="createPresentation" id="inputTitle">
+        <input type="text" name="description" hidden="true" form="createPresentation" id="inputDescription">
+        <script src="{{url_for('static', filename='previewImage.js')}}"></script>
+        <script src="{{url_for('static', filename='makeVisibleInput.js')}}"></script>
+        <script src="{{url_for('static', filename='fillTextInput.js')}}"></script>
+    </body>
+</html>
