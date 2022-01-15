@@ -1,0 +1,30 @@
+<!-- @Author: Daniil Maslov (@ComicSphinx) -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Roni_player</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='presentationList.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div class="grid">
+            <div class = "left-side"></div>
+            <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
+            <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
+            <ul class="list">
+                {% for presentation in presentationsList %}
+                <li>
+                    <a href = "http://127.0.0.1:81/presentation/{{presentation.id}}"> <!-- тут надо сделать ссылочку на апдейт этой презентации (на метод) -->
+                        <img src = 'http://127.0.0.1/getPresentation/{{presentation.id}}/image/mainImagePath'>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="right-side"></div>
+        </div>
+    </body>
+</html>
