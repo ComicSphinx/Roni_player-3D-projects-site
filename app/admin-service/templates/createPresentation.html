@@ -14,7 +14,8 @@
             <div class = "left-side"></div>
             <div class = "review">
                 <div class = "menu">
-                    <form action="{{url_for('logout')}}" method="post"><button link="{{url_for('logout')}}">Выйти из админки</button></form>
+                    <form action="{{url_for('logout')}}" method="post"><button link="{{url_for('logout')}}">Logout</button></form>
+                    <form action="{{url_for('admin')}}" method="get"><button link="{{url_for('logout')}}">Открыть админ панель</button></form>
                     <!-- TODO: Надо будет пути заменить на относительные или вообще всё это как-то переделать -->
                     <form action="http://127.0.0.1:80/presentation" method="post" id ="createPresentation" enctype="multipart/form-data"><button>Создать презентацию</button>
                 </div>
