@@ -17,7 +17,7 @@
                     <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
                     <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
                     <!-- TODO: Надо будет пути заменить на относительные или вообще всё это как-то переделать -->
-                    <form action="http://127.0.0.1:80/updatePresentation" method="post" id ="updatePresentation"><button>Обновить презентацию</button>
+                    <form action="http://127.0.0.1:80/updatePresentation/{{data.id}}" method="post" id ="updatePresentation" enctype="multipart/form-data"><button>Обновить презентацию</button>
                 </div>
                 <h1 contenteditable="true">{{ data.get('title') }}</h1>
                 <p contenteditable="true">{{ data.get('description') }}</p>
@@ -58,8 +58,8 @@
                 <input type="file" name="file7" value="Выберите изображение" class="inputImage" form="updatePresentation">
             </div>
         </div>
-        <input type="text" name="title" hidden="true" form="createPresentation" id="inputTitle">
-        <input type="text" name="description" hidden="true" form="createPresentation" id="inputDescription">
+        <input type="text" name="title" hidden="true" form="updatePresentation" id="inputTitle">
+        <input type="text" name="description" hidden="true" form="updatePresentation" id="inputDescription">
         <script src="{{url_for('static', filename='previewImage.js')}}"></script>
         <script src="{{url_for('static', filename='makeVisibleInput.js')}}"></script>
         <script src="{{url_for('static', filename='fillTextInput.js')}}"></script>
