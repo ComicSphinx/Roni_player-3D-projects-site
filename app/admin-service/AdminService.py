@@ -40,11 +40,24 @@ class AdminService(Resource):
         session.pop('username')
         return redirect(url_for('login'))
 
+    # TODO: Убрать POST
     @app.route('/createPresentation', methods=['POST', 'GET'])
     def createPresentation():
         if 'username' in session:
             if request.method == 'GET':
                 return render_template('createPresentation.html')
+        else:
+            return redirect(url_for('login'))
+
+    @app.route('/choosePresentationToUpdate', methods=['GET'])
+    def choosePresentationToUpdate():
+        if 'username' in session:
+            if request.method == 'GET':
+                # Отправить запрос, получить ответ
+                url = DB_SERVICE_BASE_URL+'/getPresentationsListData'
+                data = requests.get(url).json()
+                
+                return render_template('choosePresentationToUpdate.html', presentationsList=data)
         else:
             return redirect(url_for('login'))
 
