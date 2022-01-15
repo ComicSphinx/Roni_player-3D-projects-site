@@ -13,11 +13,11 @@
     <body>
         <div class="grid">
             <div class = "left-side"></div>
-            <form action="http://127.0.0.1:80/presentation" method="delete" id="deletePresentation"><button>Удалить выбранные презентации</button></form>
+            <form action="http://127.0.0.1:80/deletePresentations" method="post" id="deletePresentation" enctype="text/plain"><button>Удалить выбранные презентации</button></form>
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <input type="checkbox" value="{{presentation.id}}" form="deletePresentation">
+                    <input type="checkbox" value="{{presentation.id}}" form="deletePresentation" name="ids">
                     <a href = "http://127.0.0.1:81/presentation/{{presentation.id}}">
                         <img src = 'http://127.0.0.1/getPresentation/{{presentation.id}}/image/mainImagePath'>
                     </a>
