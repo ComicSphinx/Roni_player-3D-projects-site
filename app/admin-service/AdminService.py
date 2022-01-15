@@ -61,11 +61,14 @@ class AdminService(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/updatePresentation', methods=['PUT', 'GET'])
-    def updatePresentation():
+    @app.route('/updatePresentation/<id>', methods=['GET'])
+    def updatePresentation(id):
         if 'username' in session:
             if request.method == 'GET':
-                return render_template('updatePresentation.html')
+                # Отправить запрос, получить ответ
+                url = DB_SERVICE_BASE_URL+'/presentation/'+id
+                data = requests.get(url).json()
+                return render_template('updatePresentation.html', data=data)
         else:
             return redirect(url_for('login'))
 
