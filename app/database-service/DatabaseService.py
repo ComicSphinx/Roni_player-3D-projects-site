@@ -45,6 +45,19 @@ class DatabaseService(Resource):
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
+    # TODO: Рефакторинг
+    @app.route('/deletePresentations', methods=['POST'])
+    def deletePresentations():
+        if request.method == 'POST':
+            presentationIdsToDelete = request.form.getlist('id')
+            for i in range(len(presentationIdsToDelete)):
+                Presentation.query.filter_by(id=presentationIdsToDelete[i]).update(dict(active=False))
+                db.session.commit()
+            return "successful"
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
+
+    # TODO: переименовать в createPresentation
     @app.route('/presentation', methods=['POST'])
     def createPresentation():
         if request.method == 'POST':
@@ -70,8 +83,6 @@ class DatabaseService(Resource):
             DatabaseService.savePresentationImagesToDir(images, newPresentationId)
 
             return "successful"
-        else:
-            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     def getImagesFromRequest():
         images = []
