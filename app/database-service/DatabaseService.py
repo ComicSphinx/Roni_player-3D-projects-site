@@ -46,9 +46,9 @@ class DatabaseService(Resource):
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     @app.route('/deletePresentations', methods=['POST'])
-    def deletepResentation():
+    def deletePresentations():
         if request.method == 'POST':
-            print(request.form.get("ids"))
+            print(request.form.getlist('id'))
             return "successful"
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
