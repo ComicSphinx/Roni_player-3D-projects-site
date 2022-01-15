@@ -111,7 +111,7 @@ class DatabaseService(Resource):
 
             DatabaseService.savePresentationImagesToDir(images, id)
 
-            print("successful")
+            return "successful"
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
