@@ -76,13 +76,44 @@ class DatabaseService(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            DatabaseService.savePresentationToDb(newPresentation)
+            DatabaseService.saveNewPresentationToDb(newPresentation)
 
             # Create new dir and save there images
             DatabaseService.createPresentationDir(newPresentationId)
             DatabaseService.savePresentationImagesToDir(images, newPresentationId)
 
             return "successful"
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
+
+    @app.route('/updatePresentation/<id>', methods=['POST'])
+    def updatePresentation(id):
+        if request.method == 'POST':
+            # Get title, description and images from request
+            newTitle = request.form.get('title')
+            newDescription = request.form.get('description')
+            images = DatabaseService.getImagesFromRequest()
+            presentationToUpdate = Presentation.query.filter_by(id=id)
+            print(newTitle)
+            # Update title, description, images and commit it
+            presentationToUpdate.update(dict(title=newTitle))
+            presentationToUpdate.update(dict(description=newDescription))
+            presentationToUpdate.update(dict(firstImagePath=secure_filename(images[0].filename)))
+            presentationToUpdate.update(dict(secondImagePath=secure_filename(images[1].filename)))
+            presentationToUpdate.update(dict(thirdImagePath=secure_filename(images[2].filename)))
+            presentationToUpdate.update(dict(fourthImagePath=secure_filename(images[3].filename)))
+            presentationToUpdate.update(dict(fifthImagePath=secure_filename(images[4].filename)))
+            presentationToUpdate.update(dict(sixthImagePath=secure_filename(images[5].filename)))
+            presentationToUpdate.update(dict(seventhImagePath=secure_filename(images[6].filename)))
+            presentationToUpdate.update(dict(eightImagePath=secure_filename(images[7].filename)))
+            presentationToUpdate.update(dict(mainImagePath=secure_filename(images[0].filename)))
+            db.session.commit()
+
+            DatabaseService.savePresentationImagesToDir(images, id)
+
+            print("successful")
+        else:
+            return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400
 
     def getImagesFromRequest():
         images = []
@@ -113,10 +144,11 @@ class DatabaseService(Resource):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
             path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
-            images[i].save(path)
+            if os.path.exists(path) != True:
+                images[i].save(path)
 
     # На вход принимает класс с заполненными полями
-    def savePresentationToDb(newPresentation):
+    def saveNewPresentationToDb(newPresentation):
         db.session.add(newPresentation)
         db.session.commit()
 
