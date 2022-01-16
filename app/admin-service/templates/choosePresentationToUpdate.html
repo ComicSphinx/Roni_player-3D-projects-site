@@ -13,12 +13,13 @@
     <body>
         <div class="grid">
             <div class = "left-side"></div>
+            <h1>Выберите презентацию, которую хотите обновить</h1>
             <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
             <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <a href = "http://127.0.0.1:81/presentation/{{presentation.id}}"> <!-- тут надо сделать ссылочку на апдейт этой презентации (на метод) -->
+                    <a href = "http://127.0.0.1:5000/updatePresentation/{{presentation.id}}"> <!-- тут надо сделать ссылочку на апдейт этой презентации (на метод) -->
                         <img src = 'http://127.0.0.1/getPresentation/{{presentation.id}}/image/mainImagePath'>
                     </a>
                 </li>
