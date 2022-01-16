@@ -17,7 +17,7 @@ class DatabaseService(Resource):
     @app.route('/presentation/<id>', methods=['GET'])
     def getPresentation(id):
         if request.method == 'GET':
-            presentation = Presentation.query.filter_by(id=id).first_or_404()
+            presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
             return Presentation.serialize(presentation)
         else:
             return NOT_SUPPORTED_REQUEST_TYPE_ERROR_MESSAGE, 400

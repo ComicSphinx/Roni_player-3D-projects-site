@@ -1,9 +1,10 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask, request
+from flask import Flask, url_for, redirect
 from flask.templating import render_template
 from flask_restful import Api, Resource
 import requests
+from requests.exceptions import JSONDecodeError
 
 app = Flask(__name__)
 api = Api(app)
@@ -17,9 +18,12 @@ class PresentationService(Resource):
     def presentation(id):
         # Отправить запрос, получить ответ
         url = DB_SERVICE_BASE_URL+'/presentation/'+id
-        data = requests.get(url).json()
-
-        return render_template('presentation.html', data=data)
+        data = requests.get(url)
+        try:
+            data = data.json()
+            return render_template('presentation.html', data=data)
+        except JSONDecodeError:
+            return redirect(url_for('presentationsList'))
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
