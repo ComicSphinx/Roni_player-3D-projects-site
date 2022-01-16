@@ -94,19 +94,28 @@ class DatabaseService(Resource):
             newDescription = request.form.get('description')
             images = DatabaseService.getImagesFromRequest()
             presentationToUpdate = Presentation.query.filter_by(id=id)
-            print(newTitle)
+
             # Update title, description, images and commit it
             presentationToUpdate.update(dict(title=newTitle))
             presentationToUpdate.update(dict(description=newDescription))
-            presentationToUpdate.update(dict(firstImagePath=secure_filename(images[0].filename)))
-            presentationToUpdate.update(dict(secondImagePath=secure_filename(images[1].filename)))
-            presentationToUpdate.update(dict(thirdImagePath=secure_filename(images[2].filename)))
-            presentationToUpdate.update(dict(fourthImagePath=secure_filename(images[3].filename)))
-            presentationToUpdate.update(dict(fifthImagePath=secure_filename(images[4].filename)))
-            presentationToUpdate.update(dict(sixthImagePath=secure_filename(images[5].filename)))
-            presentationToUpdate.update(dict(seventhImagePath=secure_filename(images[6].filename)))
-            presentationToUpdate.update(dict(eightImagePath=secure_filename(images[7].filename)))
-            presentationToUpdate.update(dict(mainImagePath=secure_filename(images[0].filename)))
+
+            if images[0].filename != '':
+                presentationToUpdate.update(dict(firstImagePath=secure_filename(images[0].filename)))
+                presentationToUpdate.update(dict(mainImagePath=secure_filename(images[0].filename)))
+            if images[1].filename != '':
+                presentationToUpdate.update(dict(secondImagePath=secure_filename(images[1].filename)))
+            if images[2].filename != '':
+                presentationToUpdate.update(dict(thirdImagePath=secure_filename(images[2].filename)))
+            if images[3].filename != '':
+                presentationToUpdate.update(dict(fourthImagePath=secure_filename(images[3].filename)))
+            if images[4].filename != '':
+                presentationToUpdate.update(dict(fifthImagePath=secure_filename(images[4].filename)))
+            if images[5].filename != '':
+                presentationToUpdate.update(dict(sixthImagePath=secure_filename(images[5].filename)))
+            if images[6].filename != '':
+                presentationToUpdate.update(dict(seventhImagePath=secure_filename(images[6].filename)))
+            if images[7].filename != '':
+                presentationToUpdate.update(dict(eightImagePath=secure_filename(images[7].filename)))
             db.session.commit()
 
             DatabaseService.savePresentationImagesToDir(images, id)
