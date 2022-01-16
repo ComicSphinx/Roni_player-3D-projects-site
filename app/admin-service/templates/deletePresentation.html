@@ -14,8 +14,8 @@
         <div class="grid">
             <div class = "left-side"></div>
             <form action="http://127.0.0.1:80/deletePresentations" method="post" id="deletePresentation"><button>Удалить выбранные презентации</button></form>
-            <form action="{{url_for('logout')}}" method="post"><button link="{{url_for('logout')}}">Logout</button></form>
-            <form action="{{url_for('admin')}}" method="get"><button link="{{url_for('logout')}}">Открыть админ панель</button></form>
+            <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
+            <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
