@@ -1,15 +1,19 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask, url_for, redirect, jsonify
+from flask import Flask, jsonify
 from flask.templating import render_template
 from flask_restful import Api, Resource
-import requests
-from requests.exceptions import JSONDecodeError
+from flask_migrate import Migrate
+from flask_sslify import SSLify
+import sys
+sys.path.append('../database')
+from Models import Presentation, app, db
 
 app = Flask(__name__)
+migrate = Migrate(app, db)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://gdjqbznobxhqxk:cf39ce62f344cfa9cb15eba8c31a6e0304f42750e5f69a3563da7505f1f80fb5@ec2-3-212-143-188.compute-1.amazonaws.com:5432/d5hggk2n1g9v3n'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+sslify = SSLify(app)
+db.init_app(app)
 
 # TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
 UPLOAD_FOLDER_PATH = 'static/presentations/'
