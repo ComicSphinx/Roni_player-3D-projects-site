@@ -19,8 +19,7 @@
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <!-- !TODO УБРАТЬ ХАРДКОД ССЫЛКИ -->
-                    <a href = "http://127.0.0.1:5000/updatePresentation/{{presentation.id}}">
+                    <a href = "{{url_for('updatePresentation/presentation.id')}}"></a>
                         <img src = "../../database/static/presentations/{{presentation.id}}/{{presentation.mainImagePath}}">
                     </a>
                 </li>
