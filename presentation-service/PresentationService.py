@@ -9,7 +9,6 @@ import sys
 sys.path.append('database/')
 from Models import Presentation, app, db
 
-app = Flask(__name__)
 migrate = Migrate(app, db)
 api = Api(app)
 sslify = SSLify(app)
