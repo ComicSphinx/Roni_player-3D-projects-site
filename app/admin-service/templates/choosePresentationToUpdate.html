@@ -19,8 +19,9 @@
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <a href = "http://127.0.0.1:5000/updatePresentation/{{presentation.id}}"> <!-- тут надо сделать ссылочку на апдейт этой презентации (на метод) -->
-                        <img src = 'http://127.0.0.1/getPresentation/{{presentation.id}}/image/mainImagePath'>
+                    <!-- !TODO УБРАТЬ ХАРДКОД ССЫЛКИ -->
+                    <a href = "http://127.0.0.1:5000/updatePresentation/{{presentation.id}}">
+                        <img src = "../../database/static/presentations/{{presentation.id}}/{{presentation.mainImagePath}}">
                     </a>
                 </li>
                 {% endfor %}
