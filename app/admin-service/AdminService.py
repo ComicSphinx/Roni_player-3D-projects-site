@@ -71,7 +71,6 @@ class AdminService(Resource):
                                             secure_filename(images[0].filename), True)
             AdminService.saveNewPresentationToDb(newPresentation)
 
-            # TODO: ПЕРЕДЕЛАТЬ МЕХАНИКУ СОХРАНЕНИЯ
             # Create new dir and save there images
             AdminService.createPresentationDir(newPresentationId)
             AdminService.savePresentationImagesToDir(images, newPresentationId)
