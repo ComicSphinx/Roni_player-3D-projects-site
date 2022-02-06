@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from flask_sslify import SSLify
 import os
 import sys
+# Сервис смотрит в папку с базой
 sys.path.append('../database')
 from Models import Presentation, app, db
 
@@ -17,9 +18,6 @@ api = Api(app)
 sslify = SSLify(app)
 db.init_app(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
-
-# TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
-UPLOAD_FOLDER_PATH = 'static/presentations/'
 
 class AdminService(Resource):
 
@@ -201,13 +199,12 @@ class AdminService(Resource):
     def savePresentationImagesToDir(images, dirId):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
-            path = UPLOAD_FOLDER_PATH+str(dirId)+'/'+filename
+            path = str(dirId)+'/'+filename
             if os.path.exists(path) != True:
                 images[i].save(path)
 
     def createPresentationDir(id):
-        path = UPLOAD_FOLDER_PATH+str(id)
-        os.mkdir(path)
+        os.mkdir(str(id))
 
 api.add_resource(AdminService)
 if __name__ == "__main__":
