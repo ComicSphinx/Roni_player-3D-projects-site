@@ -4,21 +4,22 @@ from flask import Flask, session, redirect, url_for, request, jsonify
 from flask.templating import render_template
 from werkzeug.utils import secure_filename
 from flask_restful import Api, Resource
+from flask_migrate import Migrate
+from flask_sslify import SSLify
 import os
+import sys
+sys.path.append('../database')
+from Models import Presentation, app, db
 
 app = Flask(__name__)
+migrate = Migrate(app, db)
 api = Api(app)
+sslify = SSLify(app)
+db.init_app(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
-
-# TODO: надо связаться с моделью
-# TODO: скорректировать на новую db
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://gdjqbznobxhqxk:cf39ce62f344cfa9cb15eba8c31a6e0304f42750e5f69a3563da7505f1f80fb5@ec2-3-212-143-188.compute-1.amazonaws.com:5432/d5hggk2n1g9v3n'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
 UPLOAD_FOLDER_PATH = 'static/presentations/'
-
-
 
 class AdminService(Resource):
 
@@ -37,7 +38,7 @@ class AdminService(Resource):
             username = request.form.get('username')
             password = request.form.get('password')
 
-            if checkCredentials('username.txt', username) == 1 and checkCredentials('password.txt', password) == 1:
+            if AdminService.checkCredentials('username.txt', username) == 1 and AdminService.checkCredentials('password.txt', password) == 1:
                 session['username'] = username
                 return redirect(url_for('admin'))
             else:
