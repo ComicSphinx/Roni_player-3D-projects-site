@@ -165,7 +165,7 @@ class AdminService(Resource):
         for i in presentationsList:
             presentationsListSerialized.append(Presentation.serialize(i))
 
-        return jsonify(presentationsListSerialized)
+        return presentationsListSerialized
 
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
