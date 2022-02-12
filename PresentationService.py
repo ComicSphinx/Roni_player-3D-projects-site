@@ -33,10 +33,8 @@ class PresentationService(Resource):
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
-        presentationList = PresentationService.getPresentationsList()
+        presentationList = PresentationService.getPresentationsList().json()
         print('flag1', type(presentationList))
-        presentationsList = presentationList.jsonify()
-        print('flag2', type(presentationList))
 
         # мб надо будет делать .json
         return render_template('presentationsList.html', presentationsList=presentationList)
