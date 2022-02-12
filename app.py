@@ -1,13 +1,12 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask, session, redirect, url_for, request, jsonify
+from flask import Flask, redirect, url_for, request, session
 from flask.templating import render_template
-from werkzeug.utils import secure_filename
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
-import os
 from Models import Presentation, db
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://sagtoetqhtwphi:85ab10f91d07d7ac0d5d080b830f82439f60c30d19995386e69889c037b55826@ec2-54-235-98-1.compute-1.amazonaws.com:5432/ddpuvodi8vp77p'
@@ -18,14 +17,11 @@ sslify = SSLify(app)
 db.init_app(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
-class AdminService(Resource):
+# TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
+# TODO: что это?
+UPLOAD_FOLDER_PATH = 'static/presentations/'
 
-    @app.route('/admin', methods=['GET'])
-    def admin():
-        if 'username' in session:
-            return render_template('admin.html')
-        else:
-            return redirect(url_for('login'))
+class PresentationService(Resource):
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -41,11 +37,18 @@ class AdminService(Resource):
             else:
                 error='Неверный логин или пароль'
                 return render_template('login.html', error=error)
-    
+
     @app.route('/logout', methods=['POST'])
     def logout():
         session.pop('username')
         return redirect(url_for('login'))
+
+    @app.route('/admin', methods=['GET'])
+    def admin():
+        if 'username' in session:
+            return render_template('admin.html')
+        else:
+            return redirect(url_for('login'))
 
     @app.route('/createPresentation', methods=['GET', 'POST'])
     def createPresentation():
@@ -154,22 +157,6 @@ class AdminService(Resource):
         else:
             return redirect(url_for('login'))
 
-    def checkCredentials(filename, value):
-        file = open(filename, 'r')
-        if (file.read() == value):
-            return 1
-        else:
-            return 0
-
-    def getPresentationsList():
-        presentationsList = Presentation.query.filter_by(active=True).all()
-        presentationsListSerialized = []
-
-        for i in presentationsList:
-            presentationsListSerialized.append(Presentation.serialize(i))
-
-        return presentationsListSerialized
-
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
         return Presentation.serialize(presentation)
@@ -187,18 +174,24 @@ class AdminService(Resource):
         return AdminService.getMaxId()+1
 
     def getMaxId():
-            presentationsList = Presentation.query.all()
-            maxId = 0
-            for i in presentationsList:
-                if i.id > maxId:
-                    maxId = i.id
-            return maxId
+        presentationsList = Presentation.query.all()
+        maxId = 0
+        for i in presentationsList:
+            if i.id > maxId:
+                maxId = i.id
+        return maxId
+
+    def checkCredentials(filename, value):
+        file = open(filename, 'r')
+        if (file.read() == value):
+            return 1
+        else:
+            return 0
 
     def saveNewPresentationToDb(newPresentation):
         db.session.add(newPresentation)
         db.session.commit()
-
-    # Сохранить картинки
+    
     def savePresentationImagesToDir(images, dirId):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
@@ -215,6 +208,33 @@ class AdminService(Resource):
         path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
-api.add_resource(AdminService)
+    @app.route('/presentation/<id>', methods=['GET'])
+    def presentation(id):
+        # Получить презентацию
+        presentation = PresentationService.getPresentationById(id)
+        
+        return render_template('presentation.html', data=presentation)
+
+    @app.route('/presentationsList/', methods=['GET'])
+    def presentationsList():
+        # Получить список презентаций
+        presentationList = PresentationService.getPresentationsList()
+
+        return render_template('presentationsList.html', presentationsList=presentationList)
+
+    def getPresentationById(id):
+        presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
+        return Presentation.serialize(presentation)
+
+    def getPresentationsList():
+        presentationsList = Presentation.query.filter_by(active=True).all()
+        presentationsListSerialized = []
+
+        for i in presentationsList:
+            presentationsListSerialized.append(Presentation.serialize(i))
+
+        return presentationsListSerialized
+
+api.add_resource(PresentationService)
 if __name__ == "__main__":
     app.run(debug=True)
