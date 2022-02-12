@@ -6,6 +6,7 @@ from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
 from Models import Presentation, db
+import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
