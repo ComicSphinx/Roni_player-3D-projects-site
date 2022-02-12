@@ -207,6 +207,11 @@ class AdminService(Resource):
                 images[i].save(path)
 
     def createPresentationDir(id):
+        # TODO: РЕФАКТОРИНГ, МЕТОД НЕ ДОЛЖЕН СОЗДАВАТЬ ДВЕ ПАПКИ, РАЗНЫЕ ЦЕЛИ
+        if os.path.exists('static/presentations/'):
+            print("ok")
+        else:
+            os.mkdir('static/presentations')
         path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
