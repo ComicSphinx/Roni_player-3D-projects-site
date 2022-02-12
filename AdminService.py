@@ -94,7 +94,7 @@ class AdminService(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить карточку презентации (мб надо будет делать .json, если не будет отрабатывать)
-                presentation = AdminService.getPresentationById()
+                presentation = AdminService.getPresentationById(id)
                 return render_template('updatePresentation.html', data=presentation)
             
             elif request.method == 'POST':
