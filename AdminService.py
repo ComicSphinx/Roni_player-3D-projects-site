@@ -7,8 +7,6 @@ from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
 import os
-import sys
-sys.path.append('database/')
 from Models import Presentation, db
 
 app = Flask(__name__)
@@ -199,12 +197,13 @@ class AdminService(Resource):
     def savePresentationImagesToDir(images, dirId):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
-            path = str(dirId)+'/'+filename
+            path = 'static/presentations/'+str(dirId)+'/'+filename
             if os.path.exists(path) != True:
                 images[i].save(path)
 
     def createPresentationDir(id):
-        os.mkdir(str(id))
+        path='static/presentations/'+str(id)
+        os.mkdir(path)
 
 api.add_resource(AdminService)
 if __name__ == "__main__":
