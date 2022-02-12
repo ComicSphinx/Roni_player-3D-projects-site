@@ -74,6 +74,11 @@ class AdminService(Resource):
             AdminService.createPresentationDir(newPresentationId)
             AdminService.savePresentationImagesToDir(images, newPresentationId)
 
+            if os.path.exists('static/presentations/'):
+                return "presentation's dir created successful"
+            else:
+                return "presentation's dir WAS NOT created, ERROR"
+
         else:
             return redirect(url_for('login'))
 
@@ -202,7 +207,7 @@ class AdminService(Resource):
                 images[i].save(path)
 
     def createPresentationDir(id):
-        path='static/presentations/'+str(id)
+        path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
 api.add_resource(AdminService)
