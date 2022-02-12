@@ -21,7 +21,7 @@ app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 # TODO: что это?
 UPLOAD_FOLDER_PATH = 'static/presentations/'
 
-class PresentationService(Resource):
+class app(Resource):
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -31,7 +31,7 @@ class PresentationService(Resource):
             username = request.form.get('username')
             password = request.form.get('password')
 
-            if AdminService.checkCredentials('username.txt', username) == 1 and AdminService.checkCredentials('password.txt', password) == 1:
+            if app.checkCredentials('username.txt', username) == 1 and app.checkCredentials('password.txt', password) == 1:
                 session['username'] = username
                 return redirect(url_for('admin'))
             else:
@@ -59,10 +59,10 @@ class PresentationService(Resource):
                 # Get title, description and images from request
                 title = request.form.get('title')
                 description = request.form.get('description')
-                images = AdminService.getImagesFromRequest()
+                images = app.getImagesFromRequest()
                 
                 # Generate ID for a new presentation
-                newPresentationId = AdminService.getNewPresentationId()
+                newPresentationId = app.getNewPresentationId()
 
             # Create Presentation Object and it to database
             newPresentation = Presentation(newPresentationId, title, description,
@@ -71,11 +71,11 @@ class PresentationService(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            AdminService.saveNewPresentationToDb(newPresentation)
+            app.saveNewPresentationToDb(newPresentation)
 
             # Create new dir and save there images
-            AdminService.createPresentationDir(newPresentationId)
-            AdminService.savePresentationImagesToDir(images, newPresentationId)
+            app.createPresentationDir(newPresentationId)
+            app.savePresentationImagesToDir(images, newPresentationId)
 
             if os.path.exists('static/presentations/'):
                 return "presentation's dir created successful"
@@ -90,7 +90,7 @@ class PresentationService(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = AdminService.getPresentationsList()
+                data = app.getPresentationsList()
                 
                 # Мб presentationListSerialized надо будет делать .json, если не будет работать
                 return render_template('choosePresentationToUpdate.html', presentationsList=data)
@@ -102,14 +102,14 @@ class PresentationService(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить карточку презентации (мб надо будет делать .json, если не будет отрабатывать)
-                presentation = AdminService.getPresentationById(id)
+                presentation = app.getPresentationById(id)
                 return render_template('updatePresentation.html', data=presentation)
             
             elif request.method == 'POST':
                 # Get title, description and images from request
                 newTitle = request.form.get('title')
                 newDescription = request.form.get('description')
-                images = AdminService.getImagesFromRequest()
+                images = app.getImagesFromRequest()
                 presentationToUpdate = Presentation.query.filter_by(id=id)
 
                 # Update title, description, images and commit it
@@ -136,7 +136,7 @@ class PresentationService(Resource):
                 
                 db.session.commit()
 
-            AdminService.savePresentationImagesToDir(images, id)
+            app.savePresentationImagesToDir(images, id)
 
         else:
             return redirect(url_for('login'))
@@ -146,7 +146,7 @@ class PresentationService(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = AdminService.getPresentationsList()
+                data = app.getPresentationsList()
 
                 return render_template('deletePresentation.html', presentationsList=data)
             elif request.method == 'POST':
@@ -171,7 +171,7 @@ class PresentationService(Resource):
         return images
 
     def getNewPresentationId():
-        return AdminService.getMaxId()+1
+        return app.getMaxId()+1
 
     def getMaxId():
         presentationsList = Presentation.query.all()
@@ -211,14 +211,14 @@ class PresentationService(Resource):
     @app.route('/presentation/<id>', methods=['GET'])
     def presentation(id):
         # Получить презентацию
-        presentation = PresentationService.getPresentationById(id)
+        presentation = app.getPresentationById(id)
         
         return render_template('presentation.html', data=presentation)
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
-        presentationList = PresentationService.getPresentationsList()
+        presentationList = app.getPresentationsList()
 
         return render_template('presentationsList.html', presentationsList=presentationList)
 
@@ -235,6 +235,6 @@ class PresentationService(Resource):
 
         return presentationsListSerialized
 
-api.add_resource(PresentationService)
+api.add_resource(app)
 if __name__ == "__main__":
     app.run(debug=True)
