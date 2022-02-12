@@ -18,6 +18,7 @@ sslify = SSLify(app)
 db.init_app(app)
 
 # TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
+# TODO: что это?
 UPLOAD_FOLDER_PATH = 'static/presentations/'
 
 class PresentationService(Resource):
