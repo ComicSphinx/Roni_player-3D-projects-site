@@ -33,8 +33,9 @@ class PresentationService(Resource):
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
-        presentationList = PresentationService.getPresentationsList().json()
+        presentationList = PresentationService.getPresentationsList()
         print('flag1', type(presentationList))
+        print(presentationList)
 
         # мб надо будет делать .json
         return render_template('presentationsList.html', presentationsList=presentationList)
@@ -50,7 +51,7 @@ class PresentationService(Resource):
         for i in presentationsList:
             presentationsListSerialized.append(Presentation.serialize(i))
 
-        return jsonify(presentationsListSerialized)
+        return presentationsListSerialized
 
 api.add_resource(PresentationService)
 if __name__ == "__main__":
