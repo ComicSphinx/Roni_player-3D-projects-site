@@ -5,8 +5,6 @@ from flask.templating import render_template
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
-import sys
-sys.path.append('database/')
 from Models import Presentation, db
 
 app = Flask(__name__)
