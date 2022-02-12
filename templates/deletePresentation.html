@@ -20,8 +20,8 @@
                 {% for presentation in presentationsList %}
                 <li>
                     <input type="checkbox" value="{{presentation.id}}" form="deletePresentation" name="id">
-                    <a href = "{{url_for('presentation/presentation.id')}}">
-                        <img src = '../../database/static/presentations/{{data.id}}/{{data.mainImagePath}}'>
+                    <a href = "{{url_for('presentation', id=presentation.id)}}">
+                        <img src = 'static/presentations/{{data.id}}/{{data.mainImagePath}}'>
                     </a>
                 </li>
                 {% endfor %}

@@ -19,8 +19,8 @@
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <a href = "{{url_for('updatePresentation/presentation.id')}}"></a>
-                        <img src = "../../database/static/presentations/{{presentation.id}}/{{presentation.mainImagePath}}">
+                    <a href = "{{url_for('updatePresentation', id=presentation.id)}}">
+                        <img src = "/static/presentations/{{presentation.id}}/{{presentation.mainImagePath}}">
                     </a>
                 </li>
                 {% endfor %}
