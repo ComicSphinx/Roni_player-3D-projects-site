@@ -6,10 +6,12 @@ from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
 import sys
-sys.path.append('../database')
-from Models import Presentation, app, db
+sys.path.append('database/')
+from Models import Presentation, db
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql://sagtoetqhtwphi:85ab10f91d07d7ac0d5d080b830f82439f60c30d19995386e69889c037b55826@ec2-54-235-98-1.compute-1.amazonaws.com:5432/ddpuvodi8vp77p'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 migrate = Migrate(app, db)
 api = Api(app)
 sslify = SSLify(app)
@@ -25,7 +27,6 @@ class PresentationService(Resource):
         # Получить презентацию
         presentation = PresentationService.getPresentationById(id)
         
-        # Возможно, надо будет делать .json
         return render_template('presentation.html', data=presentation)
 
     @app.route('/presentationsList/', methods=['GET'])
@@ -33,7 +34,6 @@ class PresentationService(Resource):
         # Получить список презентаций
         presentationList = PresentationService.getPresentationsList()
 
-        # мб надо будет делать .json
         return render_template('presentationsList.html', presentationsList=presentationList)
 
     def getPresentationById(id):
@@ -47,8 +47,8 @@ class PresentationService(Resource):
         for i in presentationsList:
             presentationsListSerialized.append(Presentation.serialize(i))
 
-        return jsonify(presentationsListSerialized)
+        return presentationsListSerialized
 
 api.add_resource(PresentationService)
 if __name__ == "__main__":
-    app.run(port=81, debug=True)
+    app.run(debug=True)
