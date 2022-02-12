@@ -27,17 +27,13 @@ class PresentationService(Resource):
         # Получить презентацию
         presentation = PresentationService.getPresentationById(id)
         
-        # Возможно, надо будет делать .json
         return render_template('presentation.html', data=presentation)
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
         presentationList = PresentationService.getPresentationsList()
-        print('flag1', type(presentationList))
-        print(presentationList)
 
-        # мб надо будет делать .json
         return render_template('presentationsList.html', presentationsList=presentationList)
 
     def getPresentationById(id):
