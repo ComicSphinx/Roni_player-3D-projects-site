@@ -34,6 +34,9 @@ class PresentationService(Resource):
     def presentationsList():
         # Получить список презентаций
         presentationList = PresentationService.getPresentationsList()
+        print(type(presentationList))
+        presentationsList = presentationList.json()
+        print(type(presentationList))
 
         # мб надо будет делать .json
         return render_template('presentationsList.html', presentationsList=presentationList)
