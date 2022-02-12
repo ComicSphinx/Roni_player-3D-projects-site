@@ -8,9 +8,8 @@ from flask_migrate import Migrate
 from flask_sslify import SSLify
 import os
 import sys
-# Сервис смотрит в папку с базой
-sys.path.append('../database')
-from Models import Presentation, app, db
+sys.path.append('database/')
+from Models import Presentation, db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://sagtoetqhtwphi:85ab10f91d07d7ac0d5d080b830f82439f60c30d19995386e69889c037b55826@ec2-54-235-98-1.compute-1.amazonaws.com:5432/ddpuvodi8vp77p'

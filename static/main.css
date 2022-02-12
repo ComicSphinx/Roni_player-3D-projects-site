@@ -6,7 +6,7 @@ body {
     background-color: black;
 }
 
-img {
+img, input {
     max-width: 100%;
 }
 
