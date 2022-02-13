@@ -15,16 +15,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 migrate = Migrate(app, db)
 api = Api(app)
 sslify = SSLify(app)
-db.init_app(app)
+db.init_App(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 # TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
 # TODO: что это?
 UPLOAD_FOLDER_PATH = 'static/presentations/'
 
-class app(Resource):
+class App(Resource):
 
-    @app.route('/login', methods=['GET', 'POST'])
+    @App.route('/login', methods=['GET', 'POST'])
     def login():
         if request.method == 'GET':
             return render_template('login.html')
@@ -32,26 +32,26 @@ class app(Resource):
             username = request.form.get('username')
             password = request.form.get('password')
 
-            if app.checkCredentials('username.txt', username) == 1 and app.checkCredentials('password.txt', password) == 1:
+            if App.checkCredentials('username.txt', username) == 1 and App.checkCredentials('password.txt', password) == 1:
                 session['username'] = username
                 return redirect(url_for('admin'))
             else:
                 error='Неверный логин или пароль'
                 return render_template('login.html', error=error)
 
-    @app.route('/logout', methods=['POST'])
+    @App.route('/logout', methods=['POST'])
     def logout():
         session.pop('username')
         return redirect(url_for('login'))
 
-    @app.route('/admin', methods=['GET'])
+    @App.route('/admin', methods=['GET'])
     def admin():
         if 'username' in session:
             return render_template('admin.html')
         else:
             return redirect(url_for('login'))
 
-    @app.route('/createPresentation', methods=['GET', 'POST'])
+    @App.route('/createPresentation', methods=['GET', 'POST'])
     def createPresentation():
         if 'username' in session:
             if request.method == 'GET':
@@ -60,10 +60,10 @@ class app(Resource):
                 # Get title, description and images from request
                 title = request.form.get('title')
                 description = request.form.get('description')
-                images = app.getImagesFromRequest()
+                images = App.getImagesFromRequest()
                 
                 # Generate ID for a new presentation
-                newPresentationId = app.getNewPresentationId()
+                newPresentationId = App.getNewPresentationId()
 
             # Create Presentation Object and it to database
             newPresentation = Presentation(newPresentationId, title, description,
@@ -72,11 +72,11 @@ class app(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            app.saveNewPresentationToDb(newPresentation)
+            App.saveNewPresentationToDb(newPresentation)
 
             # Create new dir and save there images
-            app.createPresentationDir(newPresentationId)
-            app.savePresentationImagesToDir(images, newPresentationId)
+            App.createPresentationDir(newPresentationId)
+            App.savePresentationImagesToDir(images, newPresentationId)
 
             if os.path.exists('static/presentations/'):
                 return "presentation's dir created successful"
@@ -86,31 +86,31 @@ class app(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/choosePresentationToUpdate', methods=['GET'])
+    @App.route('/choosePresentationToUpdate', methods=['GET'])
     def choosePresentationToUpdate():
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = app.getPresentationsList()
+                data = App.getPresentationsList()
                 
                 # Мб presentationListSerialized надо будет делать .json, если не будет работать
                 return render_template('choosePresentationToUpdate.html', presentationsList=data)
         else:
             return redirect(url_for('login'))
 
-    @app.route('/updatePresentation/<id>', methods=['GET', 'POST'])
+    @App.route('/updatePresentation/<id>', methods=['GET', 'POST'])
     def updatePresentation(id):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить карточку презентации (мб надо будет делать .json, если не будет отрабатывать)
-                presentation = app.getPresentationById(id)
+                presentation = App.getPresentationById(id)
                 return render_template('updatePresentation.html', data=presentation)
             
             elif request.method == 'POST':
                 # Get title, description and images from request
                 newTitle = request.form.get('title')
                 newDescription = request.form.get('description')
-                images = app.getImagesFromRequest()
+                images = App.getImagesFromRequest()
                 presentationToUpdate = Presentation.query.filter_by(id=id)
 
                 # Update title, description, images and commit it
@@ -137,17 +137,17 @@ class app(Resource):
                 
                 db.session.commit()
 
-            app.savePresentationImagesToDir(images, id)
+            App.savePresentationImagesToDir(images, id)
 
         else:
             return redirect(url_for('login'))
 
-    @app.route('/deletePresentation', methods=['GET', 'POST'])
+    @App.route('/deletePresentation', methods=['GET', 'POST'])
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = app.getPresentationsList()
+                data = App.getPresentationsList()
 
                 return render_template('deletePresentation.html', presentationsList=data)
             elif request.method == 'POST':
@@ -167,12 +167,12 @@ class app(Resource):
         filename = 'file'
         for number in range(8):
             fullFilename = filename+str(number)
-            images.append(request.files[fullFilename])
+            images.Append(request.files[fullFilename])
 
         return images
 
     def getNewPresentationId():
-        return app.getMaxId()+1
+        return App.getMaxId()+1
 
     def getMaxId():
         presentationsList = Presentation.query.all()
@@ -209,17 +209,17 @@ class app(Resource):
         path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
-    @app.route('/presentation/<id>', methods=['GET'])
+    @App.route('/presentation/<id>', methods=['GET'])
     def presentation(id):
         # Получить презентацию
-        presentation = app.getPresentationById(id)
+        presentation = App.getPresentationById(id)
         
         return render_template('presentation.html', data=presentation)
 
-    @app.route('/presentationsList/', methods=['GET'])
+    @App.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
-        presentationList = app.getPresentationsList()
+        presentationList = App.getPresentationsList()
 
         return render_template('presentationsList.html', presentationsList=presentationList)
 
@@ -232,10 +232,10 @@ class app(Resource):
         presentationsListSerialized = []
 
         for i in presentationsList:
-            presentationsListSerialized.append(Presentation.serialize(i))
+            presentationsListSerialized.Append(Presentation.serialize(i))
 
         return presentationsListSerialized
 
-api.add_resource(app)
+api.add_resource(App)
 if __name__ == "__main__":
-    app.run(debug=True)
+    App.run(debug=True)
