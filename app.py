@@ -1,13 +1,13 @@
 # @Author: Daniil Maslov (ComicSphinx)
 
-from flask import Flask, session, redirect, url_for, request, jsonify
+from flask import Flask, redirect, url_for, request, session
 from flask.templating import render_template
-from werkzeug.utils import secure_filename
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_sslify import SSLify
-import os
 from Models import Presentation, db
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://sagtoetqhtwphi:85ab10f91d07d7ac0d5d080b830f82439f60c30d19995386e69889c037b55826@ec2-54-235-98-1.compute-1.amazonaws.com:5432/ddpuvodi8vp77p'
@@ -18,7 +18,31 @@ sslify = SSLify(app)
 db.init_app(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
-class AdminService(Resource):
+# TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
+# TODO: что это?
+UPLOAD_FOLDER_PATH = 'static/presentations/'
+
+class App(Resource):
+
+    @app.route('/login/', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'GET':
+            return render_template('login.html')
+        elif (request.method == 'POST'):
+            username = request.form.get('username')
+            password = request.form.get('password')
+
+            if App.checkCredentials('username.txt', username) == 1 and App.checkCredentials('password.txt', password) == 1:
+                session['username'] = username
+                return redirect(url_for('admin'))
+            else:
+                error='Неверный логин или пароль'
+                return render_template('login.html', error=error)
+
+    @app.route('/logout/', methods=['POST'])
+    def logout():
+        session.pop('username')
+        return redirect(url_for('login'))
 
     @app.route('/admin', methods=['GET'])
     def admin():
@@ -27,27 +51,7 @@ class AdminService(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if request.method == 'GET':
-            return render_template('login.html')
-        elif (request.method == 'POST'):
-            username = request.form.get('username')
-            password = request.form.get('password')
-
-            if AdminService.checkCredentials('username.txt', username) == 1 and AdminService.checkCredentials('password.txt', password) == 1:
-                session['username'] = username
-                return redirect(url_for('admin'))
-            else:
-                error='Неверный логин или пароль'
-                return render_template('login.html', error=error)
-    
-    @app.route('/logout', methods=['POST'])
-    def logout():
-        session.pop('username')
-        return redirect(url_for('login'))
-
-    @app.route('/createPresentation', methods=['GET', 'POST'])
+    @app.route('/createPresentation/', methods=['GET', 'POST'])
     def createPresentation():
         if 'username' in session:
             if request.method == 'GET':
@@ -56,10 +60,10 @@ class AdminService(Resource):
                 # Get title, description and images from request
                 title = request.form.get('title')
                 description = request.form.get('description')
-                images = AdminService.getImagesFromRequest()
+                images = App.getImagesFromRequest()
                 
                 # Generate ID for a new presentation
-                newPresentationId = AdminService.getNewPresentationId()
+                newPresentationId = App.getNewPresentationId()
 
             # Create Presentation Object and it to database
             newPresentation = Presentation(newPresentationId, title, description,
@@ -68,11 +72,11 @@ class AdminService(Resource):
                                             secure_filename(images[4].filename), secure_filename(images[5].filename),
                                             secure_filename(images[6].filename), secure_filename(images[7].filename),
                                             secure_filename(images[0].filename), True)
-            AdminService.saveNewPresentationToDb(newPresentation)
+            App.saveNewPresentationToDb(newPresentation)
 
             # Create new dir and save there images
-            AdminService.createPresentationDir(newPresentationId)
-            AdminService.savePresentationImagesToDir(images, newPresentationId)
+            App.createPresentationDir(newPresentationId)
+            App.savePresentationImagesToDir(images, newPresentationId)
 
             if os.path.exists('static/presentations/'):
                 return "presentation's dir created successful"
@@ -82,12 +86,12 @@ class AdminService(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/choosePresentationToUpdate', methods=['GET'])
+    @app.route('/choosePresentationToUpdate/', methods=['GET'])
     def choosePresentationToUpdate():
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = AdminService.getPresentationsList()
+                data = App.getPresentationsList()
                 
                 # Мб presentationListSerialized надо будет делать .json, если не будет работать
                 return render_template('choosePresentationToUpdate.html', presentationsList=data)
@@ -99,14 +103,14 @@ class AdminService(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить карточку презентации (мб надо будет делать .json, если не будет отрабатывать)
-                presentation = AdminService.getPresentationById(id)
+                presentation = App.getPresentationById(id)
                 return render_template('updatePresentation.html', data=presentation)
             
             elif request.method == 'POST':
                 # Get title, description and images from request
                 newTitle = request.form.get('title')
                 newDescription = request.form.get('description')
-                images = AdminService.getImagesFromRequest()
+                images = App.getImagesFromRequest()
                 presentationToUpdate = Presentation.query.filter_by(id=id)
 
                 # Update title, description, images and commit it
@@ -133,17 +137,17 @@ class AdminService(Resource):
                 
                 db.session.commit()
 
-            AdminService.savePresentationImagesToDir(images, id)
+            App.savePresentationImagesToDir(images, id)
 
         else:
             return redirect(url_for('login'))
 
-    @app.route('/deletePresentation', methods=['GET', 'POST'])
+    @app.route('/deletePresentation/', methods=['GET', 'POST'])
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = AdminService.getPresentationsList()
+                data = App.getPresentationsList()
 
                 return render_template('deletePresentation.html', presentationsList=data)
             elif request.method == 'POST':
@@ -153,22 +157,6 @@ class AdminService(Resource):
                     db.session.commit()
         else:
             return redirect(url_for('login'))
-
-    def checkCredentials(filename, value):
-        file = open(filename, 'r')
-        if (file.read() == value):
-            return 1
-        else:
-            return 0
-
-    def getPresentationsList():
-        presentationsList = Presentation.query.filter_by(active=True).all()
-        presentationsListSerialized = []
-
-        for i in presentationsList:
-            presentationsListSerialized.append(Presentation.serialize(i))
-
-        return presentationsListSerialized
 
     def getPresentationById(id):
         presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
@@ -184,21 +172,27 @@ class AdminService(Resource):
         return images
 
     def getNewPresentationId():
-        return AdminService.getMaxId()+1
+        return App.getMaxId()+1
 
     def getMaxId():
-            presentationsList = Presentation.query.all()
-            maxId = 0
-            for i in presentationsList:
-                if i.id > maxId:
-                    maxId = i.id
-            return maxId
+        presentationsList = Presentation.query.all()
+        maxId = 0
+        for i in presentationsList:
+            if i.id > maxId:
+                maxId = i.id
+        return maxId
+
+    def checkCredentials(filename, value):
+        file = open(filename, 'r')
+        if (file.read() == value):
+            return 1
+        else:
+            return 0
 
     def saveNewPresentationToDb(newPresentation):
         db.session.add(newPresentation)
         db.session.commit()
-
-    # Сохранить картинки
+    
     def savePresentationImagesToDir(images, dirId):
         for i in range(len(images)):
             filename = secure_filename(images[i].filename)
@@ -215,6 +209,33 @@ class AdminService(Resource):
         path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
-api.add_resource(AdminService)
+    @app.route('/presentation/<id>', methods=['GET'])
+    def presentation(id):
+        # Получить презентацию
+        presentation = App.getPresentationById(id)
+        
+        return render_template('presentation.html', data=presentation)
+
+    @app.route('/presentationsList/', methods=['GET'])
+    def presentationsList():
+        # Получить список презентаций
+        presentationList = App.getPresentationsList()
+
+        return render_template('presentationsList.html', presentationsList=presentationList)
+
+    def getPresentationById(id):
+        presentation = Presentation.query.filter_by(id=id, active=True).first_or_404()
+        return Presentation.serialize(presentation)
+
+    def getPresentationsList():
+        presentationsList = Presentation.query.filter_by(active=True).all()
+        presentationsListSerialized = []
+
+        for i in presentationsList:
+            presentationsListSerialized.append(Presentation.serialize(i))
+
+        return presentationsListSerialized
+
+api.add_resource(App)
 if __name__ == "__main__":
-    app.run(debug=True)
+    App.run(debug=True)
