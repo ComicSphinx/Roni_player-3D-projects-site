@@ -24,7 +24,7 @@ UPLOAD_FOLDER_PATH = 'static/presentations/'
 
 class App(Resource):
 
-    @app.route('/login', methods=['GET', 'POST'])
+    @app.route('/login/', methods=['GET', 'POST'])
     def login():
         if request.method == 'GET':
             return render_template('login.html')
@@ -39,7 +39,7 @@ class App(Resource):
                 error='Неверный логин или пароль'
                 return render_template('login.html', error=error)
 
-    @app.route('/logout', methods=['POST'])
+    @app.route('/logout/', methods=['POST'])
     def logout():
         session.pop('username')
         return redirect(url_for('login'))
@@ -51,7 +51,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/createPresentation', methods=['GET', 'POST'])
+    @app.route('/createPresentation/', methods=['GET', 'POST'])
     def createPresentation():
         if 'username' in session:
             if request.method == 'GET':
@@ -86,7 +86,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/choosePresentationToUpdate', methods=['GET'])
+    @app.route('/choosePresentationToUpdate/', methods=['GET'])
     def choosePresentationToUpdate():
         if 'username' in session:
             if request.method == 'GET':
@@ -142,7 +142,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @app.route('/deletePresentation', methods=['GET', 'POST'])
+    @app.route('/deletePresentation/', methods=['GET', 'POST'])
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
