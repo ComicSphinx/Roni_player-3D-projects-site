@@ -167,7 +167,7 @@ class App(Resource):
         filename = 'file'
         for number in range(8):
             fullFilename = filename+str(number)
-            images.Append(request.files[fullFilename])
+            images.append(request.files[fullFilename])
 
         return images
 
@@ -232,7 +232,7 @@ class App(Resource):
         presentationsListSerialized = []
 
         for i in presentationsList:
-            presentationsListSerialized.Append(Presentation.serialize(i))
+            presentationsListSerialized.append(Presentation.serialize(i))
 
         return presentationsListSerialized
 
