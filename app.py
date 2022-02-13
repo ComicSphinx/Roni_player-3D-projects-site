@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 migrate = Migrate(app, db)
 api = Api(app)
 sslify = SSLify(app)
-db.init_App(app)
+db.init_app(app)
 app.secret_key = "b'z\x8a#\n8\x06\xe2\xd5\xe7\xba\x0c\xbc\xc6\x1d&*'"
 
 # TODO: СКОРРЕКТИРОВАТЬ НАИМЕНОВАНИЕ И ПУТЬ
