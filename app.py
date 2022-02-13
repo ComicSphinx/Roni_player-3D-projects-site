@@ -24,7 +24,7 @@ UPLOAD_FOLDER_PATH = 'static/presentations/'
 
 class App(Resource):
 
-    @App.route('/login', methods=['GET', 'POST'])
+    @app.route('/login', methods=['GET', 'POST'])
     def login():
         if request.method == 'GET':
             return render_template('login.html')
@@ -39,19 +39,19 @@ class App(Resource):
                 error='Неверный логин или пароль'
                 return render_template('login.html', error=error)
 
-    @App.route('/logout', methods=['POST'])
+    @app.route('/logout', methods=['POST'])
     def logout():
         session.pop('username')
         return redirect(url_for('login'))
 
-    @App.route('/admin', methods=['GET'])
+    @app.route('/admin', methods=['GET'])
     def admin():
         if 'username' in session:
             return render_template('admin.html')
         else:
             return redirect(url_for('login'))
 
-    @App.route('/createPresentation', methods=['GET', 'POST'])
+    @app.route('/createPresentation', methods=['GET', 'POST'])
     def createPresentation():
         if 'username' in session:
             if request.method == 'GET':
@@ -86,7 +86,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @App.route('/choosePresentationToUpdate', methods=['GET'])
+    @app.route('/choosePresentationToUpdate', methods=['GET'])
     def choosePresentationToUpdate():
         if 'username' in session:
             if request.method == 'GET':
@@ -98,7 +98,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @App.route('/updatePresentation/<id>', methods=['GET', 'POST'])
+    @app.route('/updatePresentation/<id>', methods=['GET', 'POST'])
     def updatePresentation(id):
         if 'username' in session:
             if request.method == 'GET':
@@ -142,7 +142,7 @@ class App(Resource):
         else:
             return redirect(url_for('login'))
 
-    @App.route('/deletePresentation', methods=['GET', 'POST'])
+    @app.route('/deletePresentation', methods=['GET', 'POST'])
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
@@ -209,14 +209,14 @@ class App(Resource):
         path = 'static/presentations/'+str(id)
         os.mkdir(path)
 
-    @App.route('/presentation/<id>', methods=['GET'])
+    @app.route('/presentation/<id>', methods=['GET'])
     def presentation(id):
         # Получить презентацию
         presentation = App.getPresentationById(id)
         
         return render_template('presentation.html', data=presentation)
 
-    @App.route('/presentationsList/', methods=['GET'])
+    @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
         # Получить список презентаций
         presentationList = App.getPresentationsList()
