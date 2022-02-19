@@ -147,9 +147,9 @@ class App(Resource):
         if 'username' in session:
             if request.method == 'GET':
                 # Получить список презентаций
-                data = App.getPresentationsList()
+                presentationsList = App.getPresentationsList()
 
-                return render_template('deletePresentation.html', presentationsList=data)
+                return render_template('deletePresentation.html', presentationsList=presentationsList)
             elif request.method == 'POST':
                 presentationIdsToDelete = request.form.getlist('id')
                 for i in range(len(presentationIdsToDelete)):
