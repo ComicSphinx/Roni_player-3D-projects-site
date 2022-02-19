@@ -155,6 +155,7 @@ class App(Resource):
                 for i in range(len(presentationIdsToDelete)):
                     Presentation.query.filter_by(id=presentationIdsToDelete[i]).update(dict(active=False))
                     db.session.commit()
+                return "deleted successful"
         else:
             return redirect(url_for('login'))
 
