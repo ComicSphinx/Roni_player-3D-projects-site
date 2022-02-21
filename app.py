@@ -135,9 +135,11 @@ class App(Resource):
                 if images[7].filename != '':
                     presentationToUpdate.update(dict(eightImagePath=secure_filename(images[7].filename)))
                 
+                App.savePresentationImagesToDir(images, id)
                 db.session.commit()
-
-            App.savePresentationImagesToDir(images, id)
+                
+                message="Презентация успешно обновлена"
+                return render_template('adminResponse.html', data=message)
 
         else:
             return redirect(url_for('login'))
