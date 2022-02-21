@@ -1,0 +1,16 @@
+<!-- @Author: Daniil Maslov (@ComicSphinx) -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Roni_player</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        {{data.message}}
+        <a href="{{url_for('admin')}}">Вернуться в админ панель</a>
+        <a href="{{url_for('presentationsList')}}">Перейти к списку презентаций</a>
+    </body>
+</html>

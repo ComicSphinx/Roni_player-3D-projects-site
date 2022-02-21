@@ -4,7 +4,7 @@
     <head>
         <title>Add presentation</title>
         <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='presentation.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminPresentation.css')}}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -16,8 +16,7 @@
                 <div class = "menu">
                     <form action="{{url_for('logout')}}" method="post"><button>Logout</button></form>
                     <form action="{{url_for('admin')}}" method="get"><button>Открыть админ панель</button></form>
-                    <!-- TODO: Надо будет пути заменить на относительные или вообще всё это как-то переделать -->
-                    <form action="http://127.0.0.1:80/presentation" method="post" id ="createPresentation" enctype="multipart/form-data"><button>Создать презентацию</button>
+                    <form action="{{url_for('createPresentation')}}" method="post" id ="createPresentation" enctype="multipart/form-data"><button>Создать презентацию</button>
                 </div>
                 <h1 contenteditable="true">Заголовок, введите текст</h1>
                 <p contenteditable="true">Описание, введите текст</p>

@@ -4,7 +4,7 @@
     <head>
         <title>Roni_player</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='presentationList.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='adminPresentationsList.css') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
             <ul class="list">
                 {% for presentation in presentationsList %}
                 <li>
-                    <a href = "http://127.0.0.1:5000/updatePresentation/{{presentation.id}}"> <!-- тут надо сделать ссылочку на апдейт этой презентации (на метод) -->
-                        <img src = 'http://127.0.0.1/getPresentation/{{presentation.id}}/image/mainImagePath'>
+                    <a href = "{{url_for('updatePresentation', id=presentation.id)}}">
+                        <img src = "/static/presentations/{{presentation.id}}/{{presentation.mainImagePath}}">
                     </a>
                 </li>
                 {% endfor %}
