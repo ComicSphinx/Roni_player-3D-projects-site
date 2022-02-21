@@ -79,7 +79,8 @@ class App(Resource):
             App.savePresentationImagesToDir(images, newPresentationId)
 
             if os.path.exists('static/presentations/'):
-                return "presentation's dir created successful"
+                message="Презентация успешно создана"
+                return render_template('adminResponse.html', data=message)
             else:
                 return "presentation's dir WAS NOT created, ERROR"
 
@@ -157,7 +158,8 @@ class App(Resource):
                 for i in range(len(presentationIdsToDelete)):
                     Presentation.query.filter_by(id=presentationIdsToDelete[i]).update(dict(active=False))
                     db.session.commit()
-                return "deleted successful"
+                message="Презентация успешно удалена"
+                return render_template('adminResponse.html', data=message)
         else:
             return redirect(url_for('login'))
 
