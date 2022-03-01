@@ -243,4 +243,4 @@ class App(Resource):
 
 api.add_resource(App)
 if __name__ == "__main__":
-    App.run(debug=True)
+    app.run(debug=True)
