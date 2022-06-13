@@ -149,10 +149,9 @@ class App(Resource):
     def deletePresentation():
         if 'username' in session:
             if request.method == 'GET':
-                # Получить список презентаций
                 presentationsList = App.getPresentationsList()
-
                 return render_template('deletePresentation.html', presentationsList=presentationsList)
+
             elif request.method == 'POST':
                 presentationIdsToDelete = request.form.getlist('id')
                 for i in range(len(presentationIdsToDelete)):
@@ -160,6 +159,7 @@ class App(Resource):
                     db.session.commit()
                 message="Презентация успешно удалена"
                 return render_template('adminResponse.html', data=message)
+                
         else:
             return redirect(url_for('login'))
 
