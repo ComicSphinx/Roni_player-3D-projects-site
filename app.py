@@ -103,12 +103,10 @@ class App(Resource):
     def updatePresentation(id):
         if 'username' in session:
             if request.method == 'GET':
-                # Получить карточку презентации (мб надо будет делать .json, если не будет отрабатывать)
                 presentation = App.getPresentationById(id)
                 return render_template('updatePresentation.html', data=presentation)
             
             elif request.method == 'POST':
-                # Get title, description and images from request
                 newTitle = request.form.get('title')
                 newDescription = request.form.get('description')
                 images = App.getImagesFromRequest()
@@ -138,7 +136,6 @@ class App(Resource):
                 
                 App.savePresentationImagesToDir(images, id)
                 db.session.commit()
-                
                 message="Презентация успешно обновлена"
                 return render_template('adminResponse.html', data=message)
 
