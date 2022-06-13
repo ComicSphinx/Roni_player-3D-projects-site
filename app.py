@@ -216,16 +216,12 @@ class App(Resource):
 
     @app.route('/presentation/<id>', methods=['GET'])
     def presentation(id):
-        # Получить презентацию
         presentation = App.getPresentationById(id)
-        
         return render_template('presentation.html', data=presentation)
 
     @app.route('/presentationsList/', methods=['GET'])
     def presentationsList():
-        # Получить список презентаций
         presentationList = App.getPresentationsList()
-
         return render_template('presentationsList.html', presentationsList=presentationList)
 
     def getPresentationById(id):
@@ -240,6 +236,10 @@ class App(Resource):
             presentationsListSerialized.append(Presentation.serialize(i))
 
         return presentationsListSerialized
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
 api.add_resource(App)
 if __name__ == "__main__":
