@@ -43,7 +43,7 @@ class App(Resource):
         session.pop('username')
         return redirect(url_for('login'))
 
-    @app.route('/admin', methods=['GET'])
+    @app.route('/admin/', methods=['GET'])
     def admin():
         if 'username' in session:
             return render_template('admin.html')
